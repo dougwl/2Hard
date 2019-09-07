@@ -1,0 +1,2 @@
+-- Oversizing - Enemies balls get bigger as time pass
+-- Ghost Balls - Enemies balls do not collide with each other

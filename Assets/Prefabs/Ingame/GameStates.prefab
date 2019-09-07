@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8142540276362262580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8142540276362262578}
+  - component: {fileID: 8142540276362262579}
+  m_Layer: 0
+  m_Name: GameStates
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8142540276362262578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8142540276362262580}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8142540276362262579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8142540276362262580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b17e104f56de534da750a20771a9c9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clockString: {fileID: 0}
+  actualTime: {fileID: 0}
+  bestTime: {fileID: 0}
+  best: {fileID: 0}
+  touch: {fileID: 0}
+  particles: {fileID: 0}
+  HolderGameOver: {fileID: 0}
+  darkFilter: {fileID: 0}
+  accent: {r: 0.9921569, g: 0.627451, b: 0.52156866, a: 1}
+  grey: {r: 0.3921569, g: 0.37254903, b: 0.37254903, a: 1}
+  pointsText: {fileID: 0}
+  matchpoints: {fileID: 0}
+  gift: {fileID: 0}
+  androidBack: {fileID: 0}
