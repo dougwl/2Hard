@@ -14,6 +14,7 @@ public class MainButtons : MonoBehaviour {
 	public bool lerp = false;
 	public bool open = true;
 	public bool openWait = true;
+    public GameObject GameCanvas;
 
 	private TrailRenderer[] tr;
 	private ParticleSystem[] ps;
@@ -31,8 +32,8 @@ public class MainButtons : MonoBehaviour {
 
 	public void PlayGame() {
 		AudioManager.AM.MusicBeforePlay();
-		StartCoroutine(tween.Moveout());
-	}
+        GameCanvas.SetActive(true);
+    }
 
 	public void RestartGame(){
 		AudioManager.AM.MusicBeforePlay();
@@ -129,7 +130,7 @@ public class MainButtons : MonoBehaviour {
 
 			if (darkfilter.alpha > 0.95f) {
 				darkfilter.alpha = 1;
-				GameManager.GM.StartGame();
+                GameCanvas.SetActive(true);
 			}
 			yield return null;
 		}
