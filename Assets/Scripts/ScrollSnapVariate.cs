@@ -164,8 +164,8 @@ public class ScrollSnapVariate : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 
     //------------------------------------------------------------------------
     private void LerpToPage(int aPageIndex) {
-        if (aPageIndex == 0) GameManager.GM.backButtonState = "Mode";
-        else GameManager.GM.backButtonState = "";
+        if (aPageIndex == 0) GameManager.GM.backButtonState = BackState.Mode;
+        else GameManager.GM.backButtonState = BackState.None;
         aPageIndex = Mathf.Clamp(aPageIndex, 0, _pageCount - 1);
         _lerpTo = _pagePositions[aPageIndex];
         _lerp = true;

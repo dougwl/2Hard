@@ -34,7 +34,7 @@ public class DragBall : MonoBehaviour {
 	}
 	
 	private void Start() {
-		if (GameManager.GM.gameMode == "No Walls") playerLimit = 0f;
+		if (GameManager.GM.gameMode == GameMode.NoWalls) playerLimit = 0f;
 	}
 
 	private void OnMouseDown() {

@@ -13,21 +13,21 @@ public class backButton : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			if (GameManager.GM.menuScene){
-				if (GameManager.GM.backButtonState == "Mode"){
+				if (GameManager.GM.backButtonState == BackState.Mode){
 					ssv.LerpDown();
 				}
-				if (GameManager.GM.backButtonState == "Settings"){
+				if (GameManager.GM.backButtonState == BackState.Settings){
 					mb.ExitSettings();
 				}
-				if (GameManager.GM.backButtonState == "Progress"){
+				if (GameManager.GM.backButtonState == BackState.Progress){
 					mb.ExitProgress();
 				}
-				if (GameManager.GM.backButtonState == "Credits"){
+				if (GameManager.GM.backButtonState == BackState.Credits){
 					mb.ExitCredits();
 				}
 			}
 			if (GameManager.GM.gameScene){
-				if (GameManager.GM.backButtonState == "Mode"){
+				if (GameManager.GM.backButtonState == BackState.Mode){
 					ssv.LerpDown();
 				}
 				else if (!GameManager.GM.playing){

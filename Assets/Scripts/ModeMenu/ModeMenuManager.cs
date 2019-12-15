@@ -14,12 +14,12 @@ public class ModeMenuManager : MonoBehaviour {
 	private void Start() {
 
 		GameManager.GM.modeMenu = this.gameObject;
-		gameMode.text = GameManager.GM.gameMode;
+		gameMode.text = GameManager.GM.gameMode.ToString();
 		if (!GameManager.GM.isRandom) {
 			if (gameMode.text == "Normal") 	highlight.localPosition = new Vector3(0,500);
 			if (gameMode.text == "Duo") 	highlight.localPosition = new Vector3(0,350);
 			if (gameMode.text == "Slow") 	highlight.localPosition = new Vector3(0,200);
-			if (gameMode.text == "No Walls")highlight.localPosition = new Vector3(0,50);
+			if (gameMode.text == "NoWalls")highlight.localPosition = new Vector3(0,50);
 			if (gameMode.text == "Survival")highlight.localPosition = new Vector3(0,-100);
 			if (gameMode.text == "Pulse") 	highlight.localPosition = new Vector3(0,-250);
 			if (gameMode.text == "Ghost") 	highlight.localPosition = new Vector3(0,-400);
@@ -45,7 +45,7 @@ public class ModeMenuManager : MonoBehaviour {
 	public void SetRandom(){
 		if (GameManager.GM.menuScene) gameMode.text = "Random";
 		else {
-			gameMode.text = GameManager.GM.gameMode;
+			gameMode.text = GameManager.GM.gameMode.ToString();
 			gameModeTitle.text = "Random";
 		}
 	}

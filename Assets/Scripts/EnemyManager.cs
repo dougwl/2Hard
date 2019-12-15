@@ -17,13 +17,13 @@ public class EnemyManager : MonoBehaviour {
 	}
 
 	private void ConfigMode(){
-		if (GameManager.GM.gameMode == "Slow") SlowMode();
+		if (GameManager.GM.gameMode == GameMode.Slow) SlowMode();
 		else NormalSpeed();
-		if (GameManager.GM.gameMode == "Ghost") SetGhost();	
-		if (GameManager.GM.gameMode == "Duo") TwoBalls();	
-		if (GameManager.GM.gameMode == "Survival") Survival();
-		if (GameManager.GM.gameMode == "Pulse") Pulse();
-		if (GameManager.GM.gameMode == "No Walls") NoWalls();
+		if (GameManager.GM.gameMode == GameMode.Ghost) SetGhost();	
+		if (GameManager.GM.gameMode == GameMode.Duo) TwoBalls();	
+		if (GameManager.GM.gameMode == GameMode.Survival) Survival();
+		if (GameManager.GM.gameMode == GameMode.Pulse) Pulse();
+		if (GameManager.GM.gameMode == GameMode.NoWalls) NoWalls();
 	}
 
 	public void startMovement(){
@@ -159,8 +159,8 @@ public class EnemyManager : MonoBehaviour {
 			if (tr.tag == "trails") trails = tr;
 		}
 		
-		while (GameManager.GM.gameMode == "Pulse"){
-			if (GameManager.GM.gameState != "GameOver"){
+		while (GameManager.GM.gameMode == GameMode.Pulse){
+			if (GameManager.GM.gameState != GameState.GameOver){
 				pp = 0.5f + Mathf.PingPong(Time.time * rand, 1f);
 				ball.GetComponent<RectTransform>().sizeDelta = new Vector2 (pp*origSize,pp*origSize);
 				ball.GetComponent<CircleCollider2D>().radius = pp * origSize/2;
