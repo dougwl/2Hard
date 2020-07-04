@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -69,7 +68,7 @@ public class GameManager : MonoBehaviour {
 		playing = false;
 		ChangeState(GameState.InGame);
 		if (isRandom) Randomize();
-		UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Game");
 	}
 
 	public void Play(){
@@ -80,7 +79,7 @@ public class GameManager : MonoBehaviour {
 	public void StartMenu(){
 		ChangeState(GameState.MainMenu);
 		if (isRandom) Randomize();
-		UnityEngine.SceneManagement.SceneManager.LoadScene("Main_Menu");
+        SceneManager.LoadScene("Main_Menu");
 	}
 
 	public void ButtonNormal(){
