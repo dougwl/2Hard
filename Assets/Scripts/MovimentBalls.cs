@@ -31,6 +31,7 @@ public class MovimentBalls : MonoBehaviour {
     private GameManager GM;
 
     void Awake() {
+		GM = GameManager.GM;
 
 		//Getting the screen limits
 		leftLimit = -(Screen.width*1920/Screen.height)/2; 
@@ -44,9 +45,8 @@ public class MovimentBalls : MonoBehaviour {
 	}
 
 	void Start(){
-		GM = GameManager.GM;
-
-        if (GM.GameState == GameState.InGame) GameOver.enemy.Add(this.gameObject);
+		if (GM == null) GM = GameManager.GM;
+		if (GM.GameState == GameState.InGame) GameOver.enemy.Add(this.gameObject);
 		Move();
 	}
 

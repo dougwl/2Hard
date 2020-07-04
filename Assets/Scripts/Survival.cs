@@ -10,9 +10,12 @@ public class Survival : MonoBehaviour {
 	private int aux = 0;
 	private float clock = 0f;
 	private GameManager GM;
-	
-	private void Start() {
+
+    private void Awake()
+    {
 		GM = GameManager.GM;
+	}
+	private void Start() {
 		if (GM.gameMode != GameMode.Survival) {
 			gameObject.SetActive(false);
 		}
