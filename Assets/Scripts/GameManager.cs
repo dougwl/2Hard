@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager GM = null;
 
-	public GameState gameState;
+	public GameState GameState;
 	public GameMode gameMode = GameMode.Random;
 
 	public BackState backButtonState;
@@ -18,11 +18,6 @@ public class GameManager : MonoBehaviour {
 
 	public EnemyManager enMan;
 
-	public Color ballNewColor;
-	public Color ballNewColorP;
-
-	public bool menuScene = false;
-	public bool gameScene = false;
 	public bool playing = false;
 
 	public List <SpriteRenderer> BallsTexE;
@@ -250,7 +245,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void ChangeState(GameState state){
-		gameState = state; 
+		GameState = state; 
 	}
 
 	public void ChangeGameMode(GameMode mode){

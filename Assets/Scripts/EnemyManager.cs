@@ -9,21 +9,23 @@ public class EnemyManager : MonoBehaviour {
 	private float origSize; 
 	public Gradient normal;
 	public Gradient ghost;
+	private GameManager GM;
 
 	private void Start(){
 		origSize = enemies[1].GetComponent<RectTransform>().rect.width;
-		GameManager.GM.enMan = this;
+		GM = GameManager.GM;
+		GM.enMan = this;
 		ConfigMode();
 	}
 
 	private void ConfigMode(){
-		if (GameManager.GM.gameMode == GameMode.Slow) SlowMode();
+		if (GM.gameMode == GameMode.Slow) SlowMode();
 		else NormalSpeed();
-		if (GameManager.GM.gameMode == GameMode.Ghost) SetGhost();	
-		if (GameManager.GM.gameMode == GameMode.Duo) TwoBalls();	
-		if (GameManager.GM.gameMode == GameMode.Survival) Survival();
-		if (GameManager.GM.gameMode == GameMode.Pulse) Pulse();
-		if (GameManager.GM.gameMode == GameMode.NoWalls) NoWalls();
+		if (GM.gameMode == GameMode.Ghost) SetGhost();	
+		if (GM.gameMode == GameMode.Duo) TwoBalls();	
+		if (GM.gameMode == GameMode.Survival) Survival();
+		if (GM.gameMode == GameMode.Pulse) Pulse();
+		if (GM.gameMode == GameMode.NoWalls) NoWalls();
 	}
 
 	public void startMovement(){
@@ -137,7 +139,7 @@ public class EnemyManager : MonoBehaviour {
 
 		enemies[4].SetActive(true);
 		SlowMode();
-		if (GameManager.GM.menuScene) StartCoroutine(enemies[4].GetComponent<Survival>().Timer());
+		if (GM.GameState == GameState.MainMenu) StartCoroutine(enemies[4].GetComponent<Survival>().Timer());
 		}
 
 	public void Pulse(){
@@ -160,7 +162,7 @@ public class EnemyManager : MonoBehaviour {
 		}
 		
 		while (GameManager.GM.gameMode == GameMode.Pulse){
-			if (GameManager.GM.gameState != GameState.GameOver){
+			if (GameManager.GM.GameState != GameState.GameOver){
 				pp = 0.5f + Mathf.PingPong(Time.time * rand, 1f);
 				ball.GetComponent<RectTransform>().sizeDelta = new Vector2 (pp*origSize,pp*origSize);
 				ball.GetComponent<CircleCollider2D>().radius = pp * origSize/2;

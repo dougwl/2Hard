@@ -66,7 +66,7 @@ public class MovimentBalls : MonoBehaviour {
 	
     private IEnumerator BallsControl()
     {
-		while (GameManager.GM.menuScene == true || (GameManager.GM.gameState != GameState.GameOver))
+		while (GameManager.GM.menuScene == true || (GameManager.GM.GameState != GameState.GameOver))
 		{
 			//set the ball movement and acceleration
 			rb.velocity = rb.velocity.normalized * speed;
