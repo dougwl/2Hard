@@ -19,13 +19,13 @@ public class EnemyManager : MonoBehaviour {
 	}
 
 	private void ConfigMode(){
-		if (GM.gameMode == GameMode.Slow) SlowMode();
+		if (GM.GameMode == GameMode.Slow) SlowMode();
 		else NormalSpeed();
-		if (GM.gameMode == GameMode.Ghost) SetGhost();	
-		if (GM.gameMode == GameMode.Duo) TwoBalls();	
-		if (GM.gameMode == GameMode.Survival) Survival();
-		if (GM.gameMode == GameMode.Pulse) Pulse();
-		if (GM.gameMode == GameMode.NoWalls) NoWalls();
+		if (GM.GameMode == GameMode.Ghost) SetGhost();	
+		if (GM.GameMode == GameMode.Duo) TwoBalls();	
+		if (GM.GameMode == GameMode.Survival) Survival();
+		if (GM.GameMode == GameMode.Pulse) Pulse();
+		if (GM.GameMode == GameMode.NoWalls) NoWalls();
 	}
 
 	public void startMovement(){
@@ -161,7 +161,7 @@ public class EnemyManager : MonoBehaviour {
 			if (tr.tag == "trails") trails = tr;
 		}
 		
-		while (GameManager.GM.gameMode == GameMode.Pulse){
+		while (GameManager.GM.GameMode == GameMode.Pulse){
 			if (GameManager.GM.GameState != GameState.GameOver){
 				pp = 0.5f + Mathf.PingPong(Time.time * rand, 1f);
 				ball.GetComponent<RectTransform>().sizeDelta = new Vector2 (pp*origSize,pp*origSize);

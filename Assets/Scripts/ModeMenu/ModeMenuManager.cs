@@ -16,7 +16,7 @@ public class ModeMenuManager : MonoBehaviour {
         GM = GameManager.GM;
 
         GM.modeMenu = this.gameObject;
-		gameMode.text = GM.gameMode.ToString();
+		gameMode.text = GM.GameMode.ToString();
 		if (!GM.isRandom) {
 			if (gameMode.text == "Normal") 	highlight.localPosition = new Vector3(0,500);
 			if (gameMode.text == "Duo") 	highlight.localPosition = new Vector3(0,350);
@@ -47,7 +47,7 @@ public class ModeMenuManager : MonoBehaviour {
 	public void SetRandom(){
 		if (GM.GameState == GameState.MainMenu) gameMode.text = "Random";
 		else {
-			gameMode.text = GM.gameMode.ToString();
+			gameMode.text = GM.GameMode.ToString();
 			gameModeTitle.text = "Random";
 		}
 	}

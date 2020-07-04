@@ -82,35 +82,35 @@ public class MovimentBalls : MonoBehaviour {
 			ballLimit = this.GetComponent<RectTransform>().rect.height/2f;
 
 			//prevent the enemy ball to get off screen (left)
-			if (this.transform.localPosition.x<leftLimit + ballLimit && GM.gameMode != GameMode.NoWalls){
+			if (this.transform.localPosition.x<leftLimit + ballLimit && GM.GameMode != GameMode.NoWalls){
 				rb.velocity = new Vector2(rb.velocity.x*-1, rb.velocity.y);
 				this.transform.localPosition = new Vector3(leftLimit + ballLimit,this.transform.localPosition.y,-1);
 				Vector2 dir = -(new Vector2(transform.localPosition.x+(Random.Range(-directionRange,directionRange)),transform.localPosition.y).normalized);
 			}
 			
 			//prevent the enemy ball to get off screen (right)
-			if (this.transform.localPosition.x>rightLimit - ballLimit && GM.gameMode != GameMode.NoWalls) {
+			if (this.transform.localPosition.x>rightLimit - ballLimit && GM.GameMode != GameMode.NoWalls) {
 				rb.velocity = new Vector2(rb.velocity.x*-1, rb.velocity.y);
 				this.transform.localPosition = new Vector3(rightLimit - ballLimit,this.transform.localPosition.y,-1);
 				Vector2 dir = -(new Vector2(transform.localPosition.x+(Random.Range(-directionRange,directionRange)),transform.localPosition.y).normalized);
 			}
 			
 			//prevent the enemy ball to get off screen (bottom)
-			if (this.transform.localPosition.y<bottomLimit + ballLimit && GM.gameMode != GameMode.NoWalls) {
+			if (this.transform.localPosition.y<bottomLimit + ballLimit && GM.GameMode != GameMode.NoWalls) {
 				rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y*-1);
 				this.transform.localPosition = new Vector3(this.transform.localPosition.x,bottomLimit + ballLimit,-1);
 				Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-directionRange,directionRange))).normalized);
 			}
 			
 			//prevent the enemy ball to get off screen (top)
-			if (this.transform.localPosition.y>topLimit - ballLimit && GM.gameMode != GameMode.NoWalls) {
+			if (this.transform.localPosition.y>topLimit - ballLimit && GM.GameMode != GameMode.NoWalls) {
 				rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y*-1);
 				this.transform.localPosition = new Vector3(this.transform.localPosition.x,topLimit - ballLimit,-1);
 				Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-directionRange,directionRange))).normalized);
 			}
 
 			//WRAPING
-			if (GM.gameMode == GameMode.NoWalls)
+			if (GM.GameMode == GameMode.NoWalls)
 			{
 				if (this.transform.localPosition.x + ballLimit < leftLimit){
 					enableTrail = false;

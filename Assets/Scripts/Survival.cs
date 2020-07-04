@@ -16,7 +16,7 @@ public class Survival : MonoBehaviour {
 		GM = GameManager.GM;
 	}
 	private void Start() {
-		if (GM.gameMode != GameMode.Survival) {
+		if (GM.GameMode != GameMode.Survival) {
 			gameObject.SetActive(false);
 		}
 		else {
@@ -36,7 +36,7 @@ public class Survival : MonoBehaviour {
 	}
 
 	public IEnumerator Timer(){
-		while (GM.gameMode == GameMode.Survival) 
+		while (GM.GameMode == GameMode.Survival) 
 		{
 			clock += Time.deltaTime;
 			yield return null;

@@ -19,7 +19,7 @@ public class TrailsSize : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		pp = 0.8f + Mathf.PingPong(Time.time/3, 1f * rand);
-		if (GameManager.GM.gameMode == GameMode.NoWalls){
+		if (GameManager.GM.GameMode == GameMode.NoWalls){
 			if (mb.enableTrail)	GetComponent<TrailRenderer>().time = pp*finalTime*10/mb.speed;
 			if (!mb.enableTrail) GetComponent<TrailRenderer>().Clear();
 		}

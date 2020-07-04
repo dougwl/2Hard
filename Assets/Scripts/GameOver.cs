@@ -116,7 +116,7 @@ public class GameOver : MonoBehaviour {
 
 	private void BestScore(){
 
-		if (GameManager.GM.gameMode == GameMode.Normal) {
+		if (GameManager.GM.GameMode == GameMode.Normal) {
 			
 			bestTime.text = PlayerPrefs.GetFloat("BestScoreNormal").ToString("F2", CultureInfo.InvariantCulture);
 			if (Clock.clock>PlayerPrefs.GetFloat("BestScoreNormal")){
@@ -128,7 +128,7 @@ public class GameOver : MonoBehaviour {
 		
 		}
 
-		else if (GameManager.GM.gameMode == GameMode.Duo) {
+		else if (GameManager.GM.GameMode == GameMode.Duo) {
 		
 			bestTime.text = PlayerPrefs.GetFloat("BestScoreDuo").ToString("F2", CultureInfo.InvariantCulture);
 			if (Clock.clock>PlayerPrefs.GetFloat("BestScoreDuo")){
@@ -140,7 +140,7 @@ public class GameOver : MonoBehaviour {
 		
 		}
 		
-		else if (GameManager.GM.gameMode == GameMode.Slow) {
+		else if (GameManager.GM.GameMode == GameMode.Slow) {
 		
 			bestTime.text = PlayerPrefs.GetFloat("BestScoreSlow").ToString("F2", CultureInfo.InvariantCulture);
 			if (Clock.clock>PlayerPrefs.GetFloat("BestScoreSlow")){
@@ -152,7 +152,7 @@ public class GameOver : MonoBehaviour {
 		
 		}
 		
-		else if (GameManager.GM.gameMode == GameMode.NoWalls) {
+		else if (GameManager.GM.GameMode == GameMode.NoWalls) {
 		
 			bestTime.text = PlayerPrefs.GetFloat("BestScoreNoWalls").ToString("F2", CultureInfo.InvariantCulture);
 			if (Clock.clock>PlayerPrefs.GetFloat("BestScoreNoWalls")){
@@ -164,7 +164,7 @@ public class GameOver : MonoBehaviour {
 		
 		}
 		
-		else if (GameManager.GM.gameMode == GameMode.Survival) {
+		else if (GameManager.GM.GameMode == GameMode.Survival) {
 		
 			bestTime.text = PlayerPrefs.GetFloat("BestScoreSurvival").ToString("F2", CultureInfo.InvariantCulture);
 			if (Clock.clock>PlayerPrefs.GetFloat("BestScoreSurvival")){
@@ -176,7 +176,7 @@ public class GameOver : MonoBehaviour {
 		
 		}
 		
-		else if (GameManager.GM.gameMode == GameMode.Ghost) {
+		else if (GameManager.GM.GameMode == GameMode.Ghost) {
 		
 			bestTime.text = PlayerPrefs.GetFloat("BestScoreGhost").ToString("F2", CultureInfo.InvariantCulture);
 			if (Clock.clock>PlayerPrefs.GetFloat("BestScoreGhost")){
@@ -188,7 +188,7 @@ public class GameOver : MonoBehaviour {
 		
 		}
 		
-		else if (GameManager.GM.gameMode == GameMode.Pulse) {
+		else if (GameManager.GM.GameMode == GameMode.Pulse) {
 		
 			bestTime.text = PlayerPrefs.GetFloat("BestScorePulse").ToString("F2", CultureInfo.InvariantCulture);
 			if (Clock.clock>PlayerPrefs.GetFloat("BestScorePulse")){

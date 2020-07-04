@@ -6,8 +6,8 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager GM = null;
 
-	public GameState GameState;
-	public GameMode gameMode = GameMode.Random;
+	public GameState GameState { get; private set; }
+	public GameMode GameMode { get; private set; } = GameMode.Random;
 
 	public BackState backButtonState;
 
@@ -38,13 +38,13 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public int GetCoinTime(){
-		if (gameMode == GameMode.Normal) return 5;
-		else if (gameMode == GameMode.Duo) return 10;
-		else if (gameMode == GameMode.Slow) return 10;
-		else if (gameMode == GameMode.NoWalls) return 7;
-		else if (gameMode == GameMode.Survival) return 10;
-		else if (gameMode == GameMode.Ghost) return 7;
-		else if (gameMode == GameMode.Pulse) return 5;
+		if (GameMode == GameMode.Normal) return 5;
+		else if (GameMode == GameMode.Duo) return 10;
+		else if (GameMode == GameMode.Slow) return 10;
+		else if (GameMode == GameMode.NoWalls) return 7;
+		else if (GameMode == GameMode.Survival) return 10;
+		else if (GameMode == GameMode.Ghost) return 7;
+		else if (GameMode == GameMode.Pulse) return 5;
 		else return 0;
 	}
 
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour {
 
 	public void ButtonNormal(){
 		isRandom = false;
-		if (gameMode != GameMode.Normal){
+		if (GameMode != GameMode.Normal){
 			ChangeGameMode(GameMode.Normal);
 			enMan.ResetStart();
 			enMan.SetDefault();
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour {
 
 	public void ButtonTwoBalls(){
 		isRandom = false;
-		if (gameMode != GameMode.Duo){
+		if (GameMode != GameMode.Duo){
 			ChangeGameMode(GameMode.Duo);
 			enMan.ResetStart();
 			enMan.TwoBalls();
@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour {
 
 	public void ButtonSlowBalls(){
 		isRandom = false;
-		if (gameMode != GameMode.Slow){
+		if (GameMode != GameMode.Slow){
 			ChangeGameMode(GameMode.Slow);
 			enMan.ResetStart();
 			enMan.SetDefault();
@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour {
 
 	public void ButtonNoWalls(){
 		isRandom = false;
-		if (gameMode != GameMode.NoWalls){
+		if (GameMode != GameMode.NoWalls){
 			ChangeGameMode(GameMode.NoWalls);
 			enMan.ResetStart();
 			enMan.SetDefault();
@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour {
 
 	public void ButtonSurvival(){
 		isRandom = false;
-		if (gameMode != GameMode.Survival)
+		if (GameMode != GameMode.Survival)
 		{
 			ChangeGameMode(GameMode.Survival);
 			enMan.ResetStart();
@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour {
 
 	public void ButtonGhostBalls(){
 		isRandom = false;
-		if (gameMode != GameMode.Ghost){
+		if (GameMode != GameMode.Ghost){
 			ChangeGameMode(GameMode.Ghost);
 			enMan.ResetStart();
 			enMan.startMovement();
@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour {
 
 	public void ButtonPulsing(){
 		isRandom = false;
-		if (gameMode != GameMode.Pulse){
+		if (GameMode != GameMode.Pulse){
 			ChangeGameMode(GameMode.Pulse);
 			enMan.ResetStart();
 			enMan.SetDefault();
@@ -176,7 +176,7 @@ public class GameManager : MonoBehaviour {
 		rand = Random.Range(0,7);
 		switch (rand){
 			case 0:
-				if (gameMode != GameMode.Normal){
+				if (GameMode != GameMode.Normal){
 					ChangeGameMode(GameMode.Normal);
 					enMan.ResetStart();
 					enMan.SetDefault();
@@ -185,7 +185,7 @@ public class GameManager : MonoBehaviour {
 				}
 				break;
 			case 1:
-				if (gameMode != GameMode.Duo){
+				if (GameMode != GameMode.Duo){
 					ChangeGameMode(GameMode.Duo);
 					enMan.ResetStart();
 					enMan.SetDefault();
@@ -195,7 +195,7 @@ public class GameManager : MonoBehaviour {
 				}
 				break;
 			case 2:
-				if (gameMode != GameMode.Slow){
+				if (GameMode != GameMode.Slow){
 					ChangeGameMode(GameMode.Slow);
 					enMan.ResetStart();
 					enMan.SetDefault();
@@ -204,7 +204,7 @@ public class GameManager : MonoBehaviour {
 				}
 				break;
 			case 3:
-				if (gameMode != GameMode.NoWalls){
+				if (GameMode != GameMode.NoWalls){
 					ChangeGameMode(GameMode.NoWalls);
 					enMan.ResetStart();
 					enMan.SetDefault();
@@ -214,7 +214,7 @@ public class GameManager : MonoBehaviour {
 				}
 				break;
 			case 4:
-				if (gameMode != GameMode.Survival){
+				if (GameMode != GameMode.Survival){
 					ChangeGameMode(GameMode.Survival);
 					enMan.ResetStart();
 					enMan.SetDefault();
@@ -223,7 +223,7 @@ public class GameManager : MonoBehaviour {
 				}
 				break;
 			case 5:
-				if (gameMode != GameMode.Ghost){
+				if (GameMode != GameMode.Ghost){
 					ChangeGameMode(GameMode.Ghost);
 					enMan.SetGhost();
 					enMan.ResetStart();
@@ -232,7 +232,7 @@ public class GameManager : MonoBehaviour {
 				}
 				break;
 			case 6:
-				if (gameMode != GameMode.Pulse){
+				if (GameMode != GameMode.Pulse){
 					ChangeGameMode(GameMode.Pulse);
 					enMan.ResetStart();
 					enMan.SetDefault();
@@ -249,16 +249,16 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void ChangeGameMode(GameMode mode){
-		gameMode = mode;
+		GameMode = mode;
 	}
 
 	public void onSceneLoad(Scene scene, Scene sceneMode){
 		
 		if(sceneMode.name == "Main_Menu"){
-            GameState = GameState.MainMenu;
+            ChangeState(GameState.MainMenu);
         }
 		else{
-            GameState = GameState.InGame;
+            ChangeState(GameState.InGame);
 
         }
 	}
