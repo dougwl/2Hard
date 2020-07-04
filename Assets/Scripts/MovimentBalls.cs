@@ -28,7 +28,9 @@ public class MovimentBalls : MonoBehaviour {
 	public float ballLimit;
 	public float ballOrigSize;
 
-	void Awake() {
+    private GameManager GM;
+
+    void Awake() {
 
 		//Getting the screen limits
 		leftLimit = -(Screen.width*1920/Screen.height)/2; 
@@ -42,17 +44,20 @@ public class MovimentBalls : MonoBehaviour {
 	}
 
 	void Start(){
-		if (GameManager.GM.gameScene) GameOver.enemy.Add(this.gameObject);
+		GM = GameManager.GM;
+
+        if (GM.GameState == GameState.InGame) GameOver.enemy.Add(this.gameObject);
 		Move();
 	}
 
 	public void Move(){
-		if (start != true && GameManager.GM.menuScene){
+		if (start != true && GM.GameState == GameState.MainMenu)
+        {
 			InitialMove();
 			start = true;
 			StartCoroutine(BallsControl());
 		}
-		else if(GameManager.GM.gameScene && GameManager.GM.playing){
+		else if(GM.GameState == GameState.InGame && GM.playing){
 			InitialMove();
 			start = true;
 			StartCoroutine(BallsControl());
@@ -66,7 +71,7 @@ public class MovimentBalls : MonoBehaviour {
 	
     private IEnumerator BallsControl()
     {
-		while (GameManager.GM.menuScene == true || (GameManager.GM.GameState != GameState.GameOver))
+		while (GM.GameState == GameState.MainMenu || (GM.GameState != GameState.GameOver))
 		{
 			//set the ball movement and acceleration
 			rb.velocity = rb.velocity.normalized * speed;
@@ -77,35 +82,35 @@ public class MovimentBalls : MonoBehaviour {
 			ballLimit = this.GetComponent<RectTransform>().rect.height/2f;
 
 			//prevent the enemy ball to get off screen (left)
-			if (this.transform.localPosition.x<leftLimit + ballLimit && GameManager.GM.gameMode != GameMode.NoWalls){
+			if (this.transform.localPosition.x<leftLimit + ballLimit && GM.gameMode != GameMode.NoWalls){
 				rb.velocity = new Vector2(rb.velocity.x*-1, rb.velocity.y);
 				this.transform.localPosition = new Vector3(leftLimit + ballLimit,this.transform.localPosition.y,-1);
 				Vector2 dir = -(new Vector2(transform.localPosition.x+(Random.Range(-directionRange,directionRange)),transform.localPosition.y).normalized);
 			}
 			
 			//prevent the enemy ball to get off screen (right)
-			if (this.transform.localPosition.x>rightLimit - ballLimit && GameManager.GM.gameMode != GameMode.NoWalls) {
+			if (this.transform.localPosition.x>rightLimit - ballLimit && GM.gameMode != GameMode.NoWalls) {
 				rb.velocity = new Vector2(rb.velocity.x*-1, rb.velocity.y);
 				this.transform.localPosition = new Vector3(rightLimit - ballLimit,this.transform.localPosition.y,-1);
 				Vector2 dir = -(new Vector2(transform.localPosition.x+(Random.Range(-directionRange,directionRange)),transform.localPosition.y).normalized);
 			}
 			
 			//prevent the enemy ball to get off screen (bottom)
-			if (this.transform.localPosition.y<bottomLimit + ballLimit && GameManager.GM.gameMode != GameMode.NoWalls) {
+			if (this.transform.localPosition.y<bottomLimit + ballLimit && GM.gameMode != GameMode.NoWalls) {
 				rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y*-1);
 				this.transform.localPosition = new Vector3(this.transform.localPosition.x,bottomLimit + ballLimit,-1);
 				Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-directionRange,directionRange))).normalized);
 			}
 			
 			//prevent the enemy ball to get off screen (top)
-			if (this.transform.localPosition.y>topLimit - ballLimit && GameManager.GM.gameMode != GameMode.NoWalls) {
+			if (this.transform.localPosition.y>topLimit - ballLimit && GM.gameMode != GameMode.NoWalls) {
 				rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y*-1);
 				this.transform.localPosition = new Vector3(this.transform.localPosition.x,topLimit - ballLimit,-1);
 				Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-directionRange,directionRange))).normalized);
 			}
 
 			//WRAPING
-			if (GameManager.GM.gameMode == GameMode.NoWalls)
+			if (GM.gameMode == GameMode.NoWalls)
 			{
 				if (this.transform.localPosition.x + ballLimit < leftLimit){
 					enableTrail = false;

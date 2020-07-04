@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour {
 					enMan.ResetStart();
 					enMan.SetDefault();
 					enMan.NormalSpeed();
-					if (menuScene) enMan.startMovement();
+					if (GameState == GameState.MainMenu) enMan.startMovement();
 				}
 				break;
 			case 1:
@@ -191,7 +191,7 @@ public class GameManager : MonoBehaviour {
 					enMan.SetDefault();
 					enMan.TwoBalls();
 					enMan.NormalSpeed();
-					if (menuScene) enMan.startMovement();
+					if (GameState == GameState.MainMenu) enMan.startMovement();
 				}
 				break;
 			case 2:
@@ -200,7 +200,7 @@ public class GameManager : MonoBehaviour {
 					enMan.ResetStart();
 					enMan.SetDefault();
 					enMan.SlowMode();
-					if (menuScene) enMan.startMovement();
+					if (GameState == GameState.MainMenu) enMan.startMovement();
 				}
 				break;
 			case 3:
@@ -210,7 +210,7 @@ public class GameManager : MonoBehaviour {
 					enMan.SetDefault();
 					enMan.NormalSpeed();
 					enMan.NoWalls();
-					if (menuScene) enMan.startMovement();
+					if (GameState == GameState.MainMenu) enMan.startMovement();
 				}
 				break;
 			case 4:
@@ -219,7 +219,7 @@ public class GameManager : MonoBehaviour {
 					enMan.ResetStart();
 					enMan.SetDefault();
 					enMan.Survival();
-					if (menuScene) enMan.startMovement();
+					if (GameState == GameState.MainMenu) enMan.startMovement();
 				}
 				break;
 			case 5:
@@ -228,7 +228,7 @@ public class GameManager : MonoBehaviour {
 					enMan.SetGhost();
 					enMan.ResetStart();
 					enMan.NormalSpeed();
-					if (menuScene) enMan.startMovement();
+					if (GameState == GameState.MainMenu) enMan.startMovement();
 				}
 				break;
 			case 6:
@@ -238,7 +238,7 @@ public class GameManager : MonoBehaviour {
 					enMan.SetDefault();
 					enMan.NormalSpeed();
 					enMan.Pulse();
-					if (menuScene) enMan.startMovement();
+					if (GameState == GameState.MainMenu) enMan.startMovement();
 				}
 				break;
 		}
@@ -255,12 +255,11 @@ public class GameManager : MonoBehaviour {
 	public void onSceneLoad(Scene scene, Scene sceneMode){
 		
 		if(sceneMode.name == "Main_Menu"){
-			menuScene = true;
-			gameScene = false;
-		}
+            GameState = GameState.MainMenu;
+        }
 		else{
-			gameScene = true;
-			menuScene = false;
-		}
+            GameState = GameState.InGame;
+
+        }
 	}
 }

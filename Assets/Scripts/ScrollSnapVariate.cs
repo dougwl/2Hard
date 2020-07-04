@@ -55,9 +55,11 @@ public class ScrollSnapVariate : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     private bool _dragging;
     private float _timeStamp;
     private Vector2 _startPosition;
+    private GameManager GM;
 
     //------------------------------------------------------------------------
     void Start() {
+        GM = GameManager.GM;
 		_scrollRectComponent = GetComponent<ScrollRect>();
         _scrollRectRect = GetComponent<RectTransform>();
         _container = _scrollRectComponent.content;
@@ -96,11 +98,12 @@ public class ScrollSnapVariate : MonoBehaviour, IBeginDragHandler, IEndDragHandl
                 _scrollRectComponent.velocity = Vector2.zero;
             }
         }
-		if(GameManager.GM.menuScene && !init.isFading) dock.localPosition= new Vector3 (dock.localPosition.x,_container.localPosition.y/8 - 900);
+		if(GM.GameState == GameState.MainMenu && !init.isFading) dock.localPosition= new Vector3 (dock.localPosition.x,_container.localPosition.y/8 - 900);
 		fade.alpha = (_container.localPosition.y-100)/800f;
 		fade2.alpha = (_container.localPosition.y + 960)/1920f;
 		fade3.alpha = (1-_container.localPosition.y - 400)/400f;
-        if (GameManager.GM.menuScene){
+        if (GM.GameState == GameState.MainMenu)
+        {
             fade4.alpha = fade2.alpha;
             topButtons.localPosition = _container.localPosition + new Vector3 (0,-960);
             topButtons.GetComponent<CanvasGroup>().alpha = fade2.alpha;
@@ -164,8 +167,8 @@ public class ScrollSnapVariate : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 
     //------------------------------------------------------------------------
     private void LerpToPage(int aPageIndex) {
-        if (aPageIndex == 0) GameManager.GM.backButtonState = BackState.Mode;
-        else GameManager.GM.backButtonState = BackState.None;
+        if (aPageIndex == 0) GM.backButtonState = BackState.Mode;
+        else GM.backButtonState = BackState.None;
         aPageIndex = Mathf.Clamp(aPageIndex, 0, _pageCount - 1);
         _lerpTo = _pagePositions[aPageIndex];
         _lerp = true;

@@ -20,33 +20,37 @@ public class MainButtons : MonoBehaviour
     private ParticleSystem[] ps;
     private Transform page;
     private Transform pageWait;
+    private GameManager GM;
+    private AudioManager AM;
 
     private void Start()
     {
+        GM = GameManager.GM;
+        AM = AudioManager.AM;
         pageWait = null;
-        if (GameManager.GM.menuScene)
+        if (GM.GameState == GameState.MainMenu)
         {
-            settings.localPosition = new Vector3(GameManager.GM.screenWidth, 0);
-            credits.localPosition = new Vector3(GameManager.GM.screenWidth, 0);
-            progress.localPosition = new Vector3(GameManager.GM.screenWidth, 0);
+            settings.localPosition = new Vector3(GM.screenWidth, 0);
+            credits.localPosition = new Vector3(GM.screenWidth, 0);
+            progress.localPosition = new Vector3(GM.screenWidth, 0);
         }
     }
 
     public void PlayGame()
     {
-        AudioManager.AM.MusicBeforePlay();
+        AM.MusicBeforePlay();
         StartCoroutine(tween.Moveout());
     }
 
     public void RestartGame()
     {
-        AudioManager.AM.MusicBeforePlay();
+        AM.MusicBeforePlay();
         StartCoroutine(Game());
     }
 
     public void OpenMenu()
     {
-        AudioManager.AM.MusicMainMenu();
+        AM.MusicMainMenu();
         StartCoroutine(Menu());
     }
 
@@ -57,7 +61,7 @@ public class MainButtons : MonoBehaviour
             page = settings;
             lerp = true;
             open = true;
-            GameManager.GM.backButtonState = BackState.Settings;
+            GM.backButtonState = BackState.Settings;
         }
         else if (open == false)
         {
@@ -73,13 +77,13 @@ public class MainButtons : MonoBehaviour
             page = settings;
             lerp = true;
             open = false;
-            GameManager.GM.backButtonState = BackState.None;
+            GM.backButtonState = BackState.None;
         }
         else if (open == false)
         {
             pageWait = settings;
             openWait = false;
-            GameManager.GM.backButtonState = BackState.None;
+            GM.backButtonState = BackState.None;
         }
     }
 
@@ -90,7 +94,7 @@ public class MainButtons : MonoBehaviour
             page = credits;
             lerp = true;
             open = true;
-            GameManager.GM.backButtonState = BackState.Credits;
+            GM.backButtonState = BackState.Credits;
         }
         else if (open == true)
         {
@@ -106,7 +110,7 @@ public class MainButtons : MonoBehaviour
             page = credits;
             lerp = true;
             open = false;
-            GameManager.GM.backButtonState = BackState.Settings;
+            GM.backButtonState = BackState.Settings;
         }
     }
 
@@ -117,7 +121,7 @@ public class MainButtons : MonoBehaviour
             page = progress;
             lerp = true;
             open = true;
-            GameManager.GM.backButtonState = BackState.Progress;
+            GM.backButtonState = BackState.Progress;
         }
         else if (open == false)
         {
@@ -133,7 +137,7 @@ public class MainButtons : MonoBehaviour
             page = progress;
             lerp = true;
             open = false;
-            GameManager.GM.backButtonState = BackState.None;
+            GM.backButtonState = BackState.None;
         }
     }
 
@@ -143,7 +147,7 @@ public class MainButtons : MonoBehaviour
 
         float decelerate = 0f;
         float aux = 1;
-        if (GameManager.GM.gameScene) aux = 2;
+        if (GM.GameState == GameState.InGame) aux = 2;
         while (darkfilter.alpha != 1f)
         {
             decelerate += Time.deltaTime;
@@ -153,7 +157,7 @@ public class MainButtons : MonoBehaviour
             if (darkfilter.alpha > 0.95f)
             {
                 darkfilter.alpha = 1;
-                GameManager.GM.StartGame();
+                GM.StartGame();
             }
             yield return null;
         }
@@ -173,7 +177,7 @@ public class MainButtons : MonoBehaviour
             if (fading.alpha > 0.95f)
             {
                 fading.alpha = 1f;
-                GameManager.GM.StartMenu();
+                GM.StartMenu();
             }
             yield return null;
         }
@@ -181,7 +185,7 @@ public class MainButtons : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.GM.menuScene)
+        if (GM.GameState == GameState.MainMenu)
         {
 
             if (lerp && open)
@@ -200,16 +204,16 @@ public class MainButtons : MonoBehaviour
             {
                 float decelerate = Mathf.Min(10 * Time.deltaTime, 1f);
 
-                page.localPosition = Vector2.Lerp(page.localPosition, new Vector3(GameManager.GM.screenWidth, 0), decelerate);
+                page.localPosition = Vector2.Lerp(page.localPosition, new Vector3(GM.screenWidth, 0), decelerate);
 
-                if (new Vector3(GameManager.GM.screenWidth, 0).x - page.localPosition.x < 25f)
+                if (new Vector3(GM.screenWidth, 0).x - page.localPosition.x < 25f)
                 {
-                    page.localPosition = new Vector3(GameManager.GM.screenWidth, 0);
+                    page.localPosition = new Vector3(GM.screenWidth, 0);
                     if (pageWait != null)
                     {
                         page = pageWait;
                         open = openWait;
-                        if (open) { GameManager.GM.backButtonState = BackState.None;
+                        if (open) { GM.backButtonState = BackState.None;
                             print("Update = " + page.gameObject.name); }
                         pageWait = null;
                     }

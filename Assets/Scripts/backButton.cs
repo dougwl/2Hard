@@ -6,31 +6,32 @@ public class backButton : MonoBehaviour {
 
 	public MainButtons mb;
 	public ScrollSnapVariate ssv;
+	private GameManager GM;
 
 	#if UNITY_EDITOR || UNITY_ANDROID
 
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			if (GameManager.GM.menuScene){
-				if (GameManager.GM.backButtonState == BackState.Mode){
+			if (GM.GameState == GameState.MainMenu){
+				if (GM.backButtonState == BackState.Mode){
 					ssv.LerpDown();
 				}
-				if (GameManager.GM.backButtonState == BackState.Settings){
+				if (GM.backButtonState == BackState.Settings){
 					mb.ExitSettings();
 				}
-				if (GameManager.GM.backButtonState == BackState.Progress){
+				if (GM.backButtonState == BackState.Progress){
 					mb.ExitProgress();
 				}
-				if (GameManager.GM.backButtonState == BackState.Credits){
+				if (GM.backButtonState == BackState.Credits){
 					mb.ExitCredits();
 				}
 			}
-			if (GameManager.GM.gameScene){
-				if (GameManager.GM.backButtonState == BackState.Mode){
+			if (GM.GameState == GameState.InGame){
+				if (GM.backButtonState == BackState.Mode){
 					ssv.LerpDown();
 				}
-				else if (!GameManager.GM.playing){
+				else if (!GM.playing){
 					mb.OpenMenu();
 				}
 			}

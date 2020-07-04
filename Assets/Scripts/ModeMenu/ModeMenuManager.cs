@@ -10,12 +10,14 @@ public class ModeMenuManager : MonoBehaviour {
 	[SerializeField] private Transform highlight;
 	public bool _lerp = false;
 	public Vector3 _lerpTo;
+	private GameManager GM;
 	
 	private void Start() {
+        GM = GameManager.GM;
 
-		GameManager.GM.modeMenu = this.gameObject;
-		gameMode.text = GameManager.GM.gameMode.ToString();
-		if (!GameManager.GM.isRandom) {
+        GM.modeMenu = this.gameObject;
+		gameMode.text = GM.gameMode.ToString();
+		if (!GM.isRandom) {
 			if (gameMode.text == "Normal") 	highlight.localPosition = new Vector3(0,500);
 			if (gameMode.text == "Duo") 	highlight.localPosition = new Vector3(0,350);
 			if (gameMode.text == "Slow") 	highlight.localPosition = new Vector3(0,200);
@@ -24,7 +26,7 @@ public class ModeMenuManager : MonoBehaviour {
 			if (gameMode.text == "Pulse") 	highlight.localPosition = new Vector3(0,-250);
 			if (gameMode.text == "Ghost") 	highlight.localPosition = new Vector3(0,-400);
 		}
-		else if (GameManager.GM.gameScene) gameModeTitle.text = "Random";
+		else if (GM.GameState == GameState.InGame) gameModeTitle.text = "Random";
 		else gameMode.text = "Random";
 	}
 
@@ -39,13 +41,13 @@ public class ModeMenuManager : MonoBehaviour {
 
 	public void SetMode(string mode){
 		gameMode.text = mode;
-		if (GameManager.GM.gameScene) gameModeTitle.text = "Game Mode";
+		if (GM.GameState == GameState.InGame) gameModeTitle.text = "Game Mode";
 	}
 
 	public void SetRandom(){
-		if (GameManager.GM.menuScene) gameMode.text = "Random";
+		if (GM.GameState == GameState.MainMenu) gameMode.text = "Random";
 		else {
-			gameMode.text = GameManager.GM.gameMode.ToString();
+			gameMode.text = GM.gameMode.ToString();
 			gameModeTitle.text = "Random";
 		}
 	}
