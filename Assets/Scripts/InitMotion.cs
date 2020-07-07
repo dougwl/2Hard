@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InitMotion : MonoBehaviour {
+public class InitMotion : MonoBehaviour {  //This name probably should be changed ! 
 
 	public Transform top;
 	public Transform topButtons;

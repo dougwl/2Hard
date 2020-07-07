@@ -20,32 +20,17 @@ public class GameManager : MonoBehaviour {
 
 	public bool playing = false;
 
-	public List <SpriteRenderer> BallsTexE;
-	public List <SpriteRenderer> BallsTexP;
-
 	public bool isLoaded = false;
 
-	public float screenWidth;
+	public float screenWidth { get; private set; }
 
 	private void Awake() {
 		if (GM == null) GM = this;
         else if (GM != this) Destroy(gameObject);    
 		DontDestroyOnLoad(gameObject);
 		SceneManager.activeSceneChanged += onSceneLoad;	
-		PlayerPrefs.SetInt("Random",1);
 		ChangeState(GameState.MainMenu);
 		screenWidth = Screen.width*1920/Screen.height;
-	}
-
-	public int GetCoinTime(){
-		if (GameMode == GameMode.Normal) return 5;
-		else if (GameMode == GameMode.Duo) return 10;
-		else if (GameMode == GameMode.Slow) return 10;
-		else if (GameMode == GameMode.NoWalls) return 7;
-		else if (GameMode == GameMode.Survival) return 10;
-		else if (GameMode == GameMode.Ghost) return 7;
-		else if (GameMode == GameMode.Pulse) return 5;
-		else return 0;
 	}
 
 	private void Start() {
@@ -259,7 +244,6 @@ public class GameManager : MonoBehaviour {
         }
 		else{
             ChangeState(GameState.InGame);
-
         }
 	}
 }

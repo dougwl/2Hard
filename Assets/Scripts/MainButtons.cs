@@ -163,7 +163,7 @@ public class MainButtons : MonoBehaviour
         }
     }
 
-    private IEnumerator Menu()
+    private IEnumerator Menu() // Some changes need to be done after unifying scenes.
     {
         board.blocksRaycasts = false;
 
@@ -183,7 +183,7 @@ public class MainButtons : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void Update() //Change behaviour to Event/Ienumerator
     {
         if (GM.GameState == GameState.MainMenu)
         {

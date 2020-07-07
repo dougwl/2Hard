@@ -61,8 +61,6 @@ public class GameOver : MonoBehaviour {
 		pointsText.text = aux.ToString() + "/20";
 		gift.fillAmount = (float)PlayerPrefs.GetInt("Points")/(float)MAX; 
 
-		PlayerPrefs.SetInt("Coins",(PlayerPrefs.GetInt("Coins") + (int)(Clock.clock/GameManager.GM.GetCoinTime())));
-
         matchpoints.text = Clock.points.ToString();
 
 		clockString.text = "";
