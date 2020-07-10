@@ -104,7 +104,8 @@ public class EnemyManager : MonoBehaviour {
 	}
 
 	public void ResetStart(){
-		for (int i = 0; i < enemies.Count-1; i++)
+
+		for (int i = 0; i < enemies.Count-1; i++) //WTF IS THIS, search for a new way to reset speed without turning the shit off.
 		{
 			enemies[i].SetActive(false);
 			enemies[i].SetActive(true);
@@ -119,11 +120,11 @@ public class EnemyManager : MonoBehaviour {
 			obj.GetComponent<RectTransform>().sizeDelta = new Vector2 (origSize,origSize);
 			obj.GetComponent<CircleCollider2D>().radius = origSize/2f;
 			foreach(Transform tr in obj.transform){
-				if (tr.tag == "shadow") {
+				if (tr.CompareTag("shadow")) {  // Loko 
 					tr.localScale = new Vector2 (1,1);
 					tr.localPosition = new Vector2 (6.6f,-6.6f);
 				}
-				if (tr.tag == "trails") {
+				if (tr.CompareTag("trails")) {
 					tr.localScale = new Vector2 (1,1);
 				}
 			}

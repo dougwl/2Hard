@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
 
 	public bool isRandom = true;
 
-	public GameObject gameStateObj;
+	public GameObject gameStateObj;  // RENAME THIS THING
 	public GameObject modeMenu;
 
 	public EnemyManager enMan;
@@ -33,14 +33,17 @@ public class GameManager : MonoBehaviour {
 		screenWidth = Screen.width*1920/Screen.height;
 	}
 
-	private void Start() {
-		Invoke("Randomize", 0.05f);
+	private void Start() { 
+		Invoke("Randomize", 0.05f); //WTF IS THIS - Find a solution to delay the call of reset start or a condition to avoid calling it on the start.
 		isLoaded = true;
 	}
 
+
+	// Methods - Change of State
+
 	public void GameOver(){
 		playing = false;
-		gameStateObj.GetComponent<GameOver>().CallGameOver();
+		gameStateObj.GetComponent<GameOver>().CallGameOver(); //THIS THING HERE.
 		ChangeState(GameState.GameOver);
 	}
 

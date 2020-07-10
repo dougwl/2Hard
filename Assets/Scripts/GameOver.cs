@@ -44,8 +44,6 @@ public class GameOver : MonoBehaviour {
 		StartCoroutine(GameOverFadeIn());
 
 		PlayerPrefs.SetInt("Points",PlayerPrefs.GetInt("Points") + Clock.points);
-        
-        
 
 		int MAX = 20;
 
@@ -96,7 +94,6 @@ public class GameOver : MonoBehaviour {
 		float decelerate = 0f;
 		while(HolderGameOver.GetComponent<CanvasGroup>().alpha!=1f){
 			decelerate += Time.deltaTime;
-					
 			HolderGameOver.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(HolderGameOver.GetComponent<CanvasGroup>().alpha, 1f, decelerate);
 
 			if (HolderGameOver.GetComponent<CanvasGroup>().alpha > 0.95f) {
