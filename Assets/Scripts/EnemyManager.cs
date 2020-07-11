@@ -28,7 +28,7 @@ public class EnemyManager : MonoBehaviour {
 		if (GM.GameMode == GameMode.NoWalls) NoWalls();
 	}
 
-	public void startMovement(){
+	public void StartMovement(){
 
 		foreach (GameObject ball in enemies)
 		{

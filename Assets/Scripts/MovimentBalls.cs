@@ -57,7 +57,7 @@ public class MovimentBalls : MonoBehaviour {
 			start = true;
 			StartCoroutine(BallsControl());
 		}
-		else if(GM.GameState == GameState.InGame && GM.playing){
+		else if(GM.GameState == GameState.InGame && GM.Playing){
 			InitialMove();
 			start = true;
 			StartCoroutine(BallsControl());

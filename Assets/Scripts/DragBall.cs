@@ -69,7 +69,7 @@ public class DragBall : MonoBehaviour {
 
 	private void OnDrag() {
 		
-		if (GameManager.GM.playing){
+		if (GameManager.GM.Playing){
 
 			//Don't go beyond the left
 			if (player.transform.position.x<=leftLimit){

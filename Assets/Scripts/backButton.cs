@@ -31,7 +31,7 @@ public class backButton : MonoBehaviour {
 				if (GM.backButtonState == BackState.Mode){
 					ssv.LerpDown();
 				}
-				else if (!GM.playing){
+				else if (!GM.Playing){
 					mb.OpenMenu();
 				}
 			}

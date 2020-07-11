@@ -51,7 +51,7 @@ public class Clock : MonoBehaviour {
 	//Set the match started
 	private void OnMouseDown() {
 		
-		if (!GameManager.GM.playing){
+		if (!GameManager.GM.Playing){
 			AudioManager.AM.MusicPlaying();
 			mode1.enabled = false;
 			mode2.enabled = false;

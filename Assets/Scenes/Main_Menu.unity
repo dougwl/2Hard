@@ -2120,7 +2120,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1250987536}
         m_MethodName: Survival
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2460,7 +2460,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1250987536}
         m_MethodName: NoWalls
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5998,7 +5998,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1250987536}
         m_MethodName: TwoBalls
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6982,7 +6982,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1250987536}
         m_MethodName: Ghost
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8043,7 +8043,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1250987536}
         m_MethodName: Pulsing
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8873,7 +8873,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1250987531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbf3ef674d899b44998f71c65fffebfd, type: 3}
+  m_Script: {fileID: 11500000, guid: f44e81e10b0e67143b712ad454219f64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1250987537
@@ -8885,11 +8885,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1250987531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c9d7b2c8ea4c624eae13288e394582d, type: 3}
+  m_Script: {fileID: 11500000, guid: 0012597a268e311498b4ac54ab96ce29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameMode: {fileID: 38508079}
-  gameModeTitle: {fileID: 0}
+  gameModeTitle: {fileID: 737879213}
   highlight: {fileID: 198331686}
   _lerp: 0
   _lerpTo: {x: 0, y: 0, z: 0}
@@ -15769,7 +15769,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1250987536}
         m_MethodName: Normal
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -16231,7 +16231,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1250987536}
         m_MethodName: Slow
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ModeMenuManager : MonoBehaviour {
+public class ModeMenuAnimations : MonoBehaviour {
 	
 	[SerializeField] private Text gameMode;
 	[SerializeField] private Text gameModeTitle;
