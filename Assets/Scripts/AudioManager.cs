@@ -6,19 +6,20 @@ using MoreMountains.NiceVibrations;
 
 public class AudioManager : MonoBehaviour {
 
-	public AudioMixerSnapshot mainMenu;
-	public AudioMixerSnapshot store;
-	public AudioMixerSnapshot beforePlay;
-	public AudioMixerSnapshot playing;
-	public AudioMixerSnapshot gameOver;
-	
-	public AudioSource point;
-	public AudioSource gameOverSound;
-
-	public AudioMixer mixer;
-
 	public static AudioManager AM = null;
-	private float time = 1.5f;
+
+	[SerializeField] private AudioMixer Mixer;
+
+	[SerializeField] private AudioSource PointSound;
+	[SerializeField] private AudioSource GameOverSound;
+
+    [SerializeField] private AudioMixerSnapshot MainMenuSnapshot;
+	[SerializeField] private AudioMixerSnapshot StoreSnapshot;
+	[SerializeField] private AudioMixerSnapshot BeforePlaySnapshot;
+	[SerializeField] private AudioMixerSnapshot PlayingSnapshot;
+	[SerializeField] private AudioMixerSnapshot GameOverSnapshot;
+	
+	private readonly float TransitionTime = 1.5f;
 
 	private void Awake() {
 
@@ -33,40 +34,40 @@ public class AudioManager : MonoBehaviour {
 	}
 
 	public void MusicMainMenu(){
-		mainMenu.TransitionTo(time);
+		MainMenuSnapshot.TransitionTo(TransitionTime);
 	}
 
 	public void MusicStore(){
-		store.TransitionTo(time);
+		StoreSnapshot.TransitionTo(TransitionTime);
 	}
 
 	public void MusicBeforePlay(){
-		beforePlay.TransitionTo(time);
+		BeforePlaySnapshot.TransitionTo(TransitionTime);
 	}
 
 	public void MusicPlaying(){
-		playing.TransitionTo(time);
+		PlayingSnapshot.TransitionTo(TransitionTime);
 	}
 
 	public void MusicGameOver(){
-		gameOver.TransitionTo(time);
+		GameOverSnapshot.TransitionTo(TransitionTime);
 	}
 
 	public void PlayPoint(){
-		point.Play();
+		PointSound.Play();
 	}
 
 	public void GameOver(){
-		gameOverSound.Play();
+		GameOverSound.Play();
 	}
 
 	public void MusicVolume(float vol){
-		mixer.SetFloat ("musicVolume", Mathf.Log(vol) * 20);
+		Mixer.SetFloat ("musicVolume", Mathf.Log(vol) * 20);
 		PlayerPrefs.SetFloat("musicVolume", vol);
 	}
 
 	public void EffectsVolume(float vol){
-		mixer.SetFloat ("effectsVolume", Mathf.Log(vol) * 20);
+		Mixer.SetFloat ("effectsVolume", Mathf.Log(vol) * 20);
 		PlayerPrefs.SetFloat("effectsVolume", vol);
 	}
 

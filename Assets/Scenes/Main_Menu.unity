@@ -2809,15 +2809,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f272d4a3b4d1fa47a43472456a4793d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenu: {fileID: 24500006, guid: 3574bfbaedff31c479531258f62a949b, type: 2}
-  store: {fileID: 245496453866951882, guid: 3574bfbaedff31c479531258f62a949b, type: 2}
-  beforePlay: {fileID: 245002163776791010, guid: 3574bfbaedff31c479531258f62a949b,
+  Mixer: {fileID: 24100000, guid: 3574bfbaedff31c479531258f62a949b, type: 2}
+  PointSound: {fileID: 412188428}
+  GameOverSound: {fileID: 412188429}
+  MainMenuSnapshot: {fileID: 24500006, guid: 3574bfbaedff31c479531258f62a949b, type: 2}
+  StoreSnapshot: {fileID: 245496453866951882, guid: 3574bfbaedff31c479531258f62a949b,
     type: 2}
-  playing: {fileID: 245425707012016276, guid: 3574bfbaedff31c479531258f62a949b, type: 2}
-  gameOver: {fileID: 245714460747955594, guid: 3574bfbaedff31c479531258f62a949b, type: 2}
-  point: {fileID: 412188428}
-  gameOverSound: {fileID: 412188429}
-  mixer: {fileID: 24100000, guid: 3574bfbaedff31c479531258f62a949b, type: 2}
+  BeforePlaySnapshot: {fileID: 245002163776791010, guid: 3574bfbaedff31c479531258f62a949b,
+    type: 2}
+  PlayingSnapshot: {fileID: 245425707012016276, guid: 3574bfbaedff31c479531258f62a949b,
+    type: 2}
+  GameOverSnapshot: {fileID: 245714460747955594, guid: 3574bfbaedff31c479531258f62a949b,
+    type: 2}
 --- !u!82 &412188427
 AudioSource:
   m_ObjectHideFlags: 0
