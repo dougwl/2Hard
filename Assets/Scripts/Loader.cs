@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Loader : MonoBehaviour {
 
-	public GameObject gameManager;        
+	[SerializeField] private GameObject GameManagerObject;        
         
     void Awake (){
 
-		if (GameManager.GM == null) Instantiate(gameManager);		
+		if (GameManager.GM == null) Instantiate(GameManagerObject);		
 	
 	}
 }

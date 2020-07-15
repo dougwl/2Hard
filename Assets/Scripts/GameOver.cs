@@ -26,7 +26,7 @@ public class GameOver : MonoBehaviour {
 	[SerializeField] private Text matchpoints;
 	[SerializeField] private Image gift;
 
-	public backButton androidBack;
+	public BackButton androidBack;
 	
 	public void CallGameOver(){
 		

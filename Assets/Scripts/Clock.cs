@@ -25,7 +25,7 @@ public class Clock : MonoBehaviour {
 	[SerializeField] private BoxCollider2D mode1;
 	[SerializeField] private BoxCollider2D mode2;
 
-	public backButton androidBack;
+	public BackButton androidBack;
 
 	public int auxPoint = 0;
 
