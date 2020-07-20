@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackButton : MonoBehaviour {
+public class PhysicalBackButton : MonoBehaviour {
 
 	public MainButtons MainButtons;
 	public ScrollSnapVariate GameModeScroll;

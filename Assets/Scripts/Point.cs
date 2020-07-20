@@ -14,7 +14,7 @@ public class Point : MonoBehaviour {
     private void Start()
     {
 		GM = GameManager.GM;
-		Player = MatchBehaviour.player;
+		Player = MatchBehaviour.Player;
 		WidthLimit = GM.screenWidth / 2 - 100;
 		HeightLimit = Screen.height / 2 - 100;
 		MoveAround(this.transform);
@@ -23,7 +23,7 @@ public class Point : MonoBehaviour {
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.tag == "Player"){
 			AudioManager.AM.PlayPoint();
-			MatchBehaviour.points++;
+			MatchBehaviour.Points++;
 			if (PlayerPrefs.GetInt("notVib")==0) AudioManager.AM.VibSuperLight();
 			MoveAround(this.transform);
 		}

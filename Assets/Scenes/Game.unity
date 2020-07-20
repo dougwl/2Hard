@@ -1261,17 +1261,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b6e1c73f7c108043b27e08b777bead8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clockString: {fileID: 1588666803}
-  pointText: {fileID: 966199318}
-  startPage: {fileID: 833478175}
+  ClockString: {fileID: 1588666803}
+  PointText: {fileID: 966199318}
+  StartPage: {fileID: 833478175}
   FadeStartGame: {fileID: 1205062955}
-  backButton: {fileID: 1402560068}
-  point: {fileID: 1153080180959760, guid: 4fe07c78bbe5b8f46ac66a1d456fb5f7, type: 3}
-  board: {fileID: 711701614}
-  player: {fileID: 1330941138}
-  enemies: {fileID: 1686441803}
-  mode1: {fileID: 1794106446}
-  mode2: {fileID: 1101854470}
+  BackButton: {fileID: 1402560068}
+  Point: {fileID: 1153080180959760, guid: 4fe07c78bbe5b8f46ac66a1d456fb5f7, type: 3}
+  Board: {fileID: 711701614}
+  Enemies: {fileID: 1686441803}
+  GameModePage: {fileID: 1794106446}
+  GameModeTopper: {fileID: 1101854470}
+  Player: {fileID: 1330941138}
 --- !u!114 &386123472
 MonoBehaviour:
   m_ObjectHideFlags: 0

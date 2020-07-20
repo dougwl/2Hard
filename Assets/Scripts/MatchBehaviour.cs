@@ -6,24 +6,24 @@ using UnityEngine.UI;
 
 public class MatchBehaviour : MonoBehaviour {
 
-	public static float clock;
-	public static int points;
+	public static float Clock;
+	public static int Points;
 
-	[SerializeField] private Text clockString;
-	[SerializeField] private Text pointText;
+	[SerializeField] private Text ClockString;
+	[SerializeField] private Text PointText;
 	
-	[SerializeField] private CanvasGroup startPage;
+	[SerializeField] private CanvasGroup StartPage;
 	[SerializeField] private CanvasGroup FadeStartGame;
 	
-	[SerializeField] private GameObject backButton;
-	[SerializeField] private GameObject point;
-	[SerializeField] private Transform board;
-    public RectTransform player;
+	[SerializeField] private GameObject BackButton;
+	[SerializeField] private GameObject Point;
+	[SerializeField] private Transform Board;
 
-    [SerializeField] private GameObject enemies;
-	[SerializeField] private BoxCollider2D mode1;
-	[SerializeField] private BoxCollider2D mode2;
+    [SerializeField] private GameObject Enemies;
+	[SerializeField] private BoxCollider2D GameModePage;
+	[SerializeField] private BoxCollider2D GameModeTopper;
 
+	public RectTransform Player;
 	private GameManager GM;
 
 	
@@ -34,8 +34,8 @@ public class MatchBehaviour : MonoBehaviour {
 	
 	private void Start() {
      
-		clock = 0.0f;
-		points = 0;
+		Clock = 0.0f;
+		Points = 0;
 	}
     
 	//Set the match started
@@ -43,14 +43,14 @@ public class MatchBehaviour : MonoBehaviour {
 		
 		if (!GameManager.GM.Playing){
 			AudioManager.AM.MusicPlaying();
-			mode1.enabled = false;
-			mode2.enabled = false;
-			enemies.SetActive(true);
-			backButton.SetActive(false);
+			GameModePage.enabled = false;
+			GameModeTopper.enabled = false;
+			Enemies.SetActive(true);
+			BackButton.SetActive(false);
             FadeStartGame.InterpolateCanvasAlpha(0.5f, 1, 0, CurveName.Linear);
 			GameManager.GM.Play();
-			startPage.alpha = 0;
-			startPage.blocksRaycasts = false;
+			StartPage.alpha = 0;
+			StartPage.blocksRaycasts = false;
 			SpawnPoint();
 		}
 	} 
@@ -60,14 +60,14 @@ public class MatchBehaviour : MonoBehaviour {
 		//Check and Set the Clock
 		if (GM.Playing)
         {
-			clock += Time.deltaTime;
-			clockString.text = clock.ToString("F1", CultureInfo.InvariantCulture);
-			if (points != 0) pointText.text = points.ToString();
+			Clock += Time.deltaTime;
+			ClockString.text = Clock.ToString("F1", CultureInfo.InvariantCulture);
+			if (Points != 0) PointText.text = Points.ToString();
 		}
 	}
 
 	public void SpawnPoint(){
-        GameObject temp = Instantiate(point, Vector3.zero, Quaternion.identity, board);
+        GameObject temp = Instantiate(Point, Vector3.zero, Quaternion.identity, Board);
 		temp.GetComponent<Point>().MatchBehaviour = this;
 	}
 
