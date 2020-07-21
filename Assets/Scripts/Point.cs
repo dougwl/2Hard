@@ -23,7 +23,7 @@ public class Point : MonoBehaviour {
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.tag == "Player"){
 			AudioManager.AM.PlayPoint();
-			MatchBehaviour.Points++;
+			MatchBehaviour.UpdatePoints();
 			if (PlayerPrefs.GetInt("notVib")==0) AudioManager.AM.VibSuperLight();
 			MoveAround(this.transform);
 		}

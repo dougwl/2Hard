@@ -26,7 +26,7 @@ public class GameOver : MonoBehaviour {
 	[SerializeField] private Text matchpoints;
 	[SerializeField] private Image gift;
 
-	public PhysicalBackButton androidBack;
+	public BackButton androidBack;
 	
 	public void CallGameOver(){
 		
@@ -70,7 +70,7 @@ public class GameOver : MonoBehaviour {
 			
 		BestScore();
 
-		PlayerPrefs.SetFloat("TimePlayed",PlayerPrefs.GetFloat("TimePlayed") + MatchBehaviour.Clock);
+		PlayerPrefs.SetFloat("TimePlayed",PlayerPrefs.GetFloat("TimePlayed") + Stopwatch.Clock);
 		PlayerPrefs.SetInt("MatchesPlayed",PlayerPrefs.GetInt("MatchesPlayed") + 1);
 
 		HolderGameOver.GetComponent<CanvasGroup>().blocksRaycasts = true;
@@ -80,13 +80,13 @@ public class GameOver : MonoBehaviour {
 		 
 		 float lerp = 0f, duration = 1f, score = 0;
 
-         while (score<MatchBehaviour.Clock){
+         while (score < Stopwatch.Clock){
 			lerp += Time.deltaTime / duration;
-			score = Mathf.Lerp (score, MatchBehaviour.Clock, lerp);
+			score = Mathf.Lerp (score, Stopwatch.Clock, lerp);
 			actualTime.text = score.ToString("F2",CultureInfo.InvariantCulture);
 			yield return null;
 		}
-		actualTime.text = MatchBehaviour.Clock.ToString("F2", CultureInfo.InvariantCulture);
+		actualTime.text = Stopwatch.Clock.ToString("F2", CultureInfo.InvariantCulture);
      }
 
 	 private IEnumerator GameOverFadeIn() {
@@ -114,8 +114,8 @@ public class GameOver : MonoBehaviour {
 		if (GameManager.GM.GameMode == GameMode.Normal) {
 			
 			bestTime.text = PlayerPrefs.GetFloat("BestScoreNormal").ToString("F2", CultureInfo.InvariantCulture);
-			if (MatchBehaviour.Clock>PlayerPrefs.GetFloat("BestScoreNormal")){
-				PlayerPrefs.SetFloat("BestScoreNormal",MatchBehaviour.Clock);
+			if (Stopwatch.Clock>PlayerPrefs.GetFloat("BestScoreNormal")){
+				PlayerPrefs.SetFloat("BestScoreNormal",Stopwatch.Clock);
 				actualTime.color = accent;
 				bestTime.color = grey;
 				best.SetActive(true);
@@ -126,8 +126,8 @@ public class GameOver : MonoBehaviour {
 		else if (GameManager.GM.GameMode == GameMode.Duo) {
 		
 			bestTime.text = PlayerPrefs.GetFloat("BestScoreDuo").ToString("F2", CultureInfo.InvariantCulture);
-			if (MatchBehaviour.Clock>PlayerPrefs.GetFloat("BestScoreDuo")){
-				PlayerPrefs.SetFloat("BestScoreDuo",MatchBehaviour.Clock);
+			if (Stopwatch.Clock > PlayerPrefs.GetFloat("BestScoreDuo")){
+				PlayerPrefs.SetFloat("BestScoreDuo", Stopwatch.Clock);
 				actualTime.color = accent;
 				bestTime.color = grey;
 				best.SetActive(true);
@@ -138,8 +138,8 @@ public class GameOver : MonoBehaviour {
 		else if (GameManager.GM.GameMode == GameMode.Slow) {
 		
 			bestTime.text = PlayerPrefs.GetFloat("BestScoreSlow").ToString("F2", CultureInfo.InvariantCulture);
-			if (MatchBehaviour.Clock>PlayerPrefs.GetFloat("BestScoreSlow")){
-				PlayerPrefs.SetFloat("BestScoreSlow",MatchBehaviour.Clock);
+			if (Stopwatch.Clock > PlayerPrefs.GetFloat("BestScoreSlow")){
+				PlayerPrefs.SetFloat("BestScoreSlow", Stopwatch.Clock);
 				actualTime.color = accent;
 				bestTime.color = grey;
 				best.SetActive(true);
@@ -150,8 +150,8 @@ public class GameOver : MonoBehaviour {
 		else if (GameManager.GM.GameMode == GameMode.NoWalls) {
 		
 			bestTime.text = PlayerPrefs.GetFloat("BestScoreNoWalls").ToString("F2", CultureInfo.InvariantCulture);
-			if (MatchBehaviour.Clock>PlayerPrefs.GetFloat("BestScoreNoWalls")){
-				PlayerPrefs.SetFloat("BestScoreNoWalls",MatchBehaviour.Clock);
+			if (Stopwatch.Clock > PlayerPrefs.GetFloat("BestScoreNoWalls")){
+				PlayerPrefs.SetFloat("BestScoreNoWalls", Stopwatch.Clock);
 				actualTime.color = accent;
 				bestTime.color = grey;
 				best.SetActive(true);
@@ -162,8 +162,8 @@ public class GameOver : MonoBehaviour {
 		else if (GameManager.GM.GameMode == GameMode.Survival) {
 		
 			bestTime.text = PlayerPrefs.GetFloat("BestScoreSurvival").ToString("F2", CultureInfo.InvariantCulture);
-			if (MatchBehaviour.Clock>PlayerPrefs.GetFloat("BestScoreSurvival")){
-				PlayerPrefs.SetFloat("BestScoreSurvival",MatchBehaviour.Clock);
+			if (Stopwatch.Clock > PlayerPrefs.GetFloat("BestScoreSurvival")){
+				PlayerPrefs.SetFloat("BestScoreSurvival", Stopwatch.Clock);
 				actualTime.color = accent;
 				bestTime.color = grey;
 				best.SetActive(true);
@@ -174,8 +174,8 @@ public class GameOver : MonoBehaviour {
 		else if (GameManager.GM.GameMode == GameMode.Ghost) {
 		
 			bestTime.text = PlayerPrefs.GetFloat("BestScoreGhost").ToString("F2", CultureInfo.InvariantCulture);
-			if (MatchBehaviour.Clock>PlayerPrefs.GetFloat("BestScoreGhost")){
-				PlayerPrefs.SetFloat("BestScoreGhost",MatchBehaviour.Clock);
+			if (Stopwatch.Clock > PlayerPrefs.GetFloat("BestScoreGhost")){
+				PlayerPrefs.SetFloat("BestScoreGhost", Stopwatch.Clock);
 				actualTime.color = accent;
 				bestTime.color = grey;
 				best.SetActive(true);
@@ -186,8 +186,8 @@ public class GameOver : MonoBehaviour {
 		else if (GameManager.GM.GameMode == GameMode.Pulse) {
 		
 			bestTime.text = PlayerPrefs.GetFloat("BestScorePulse").ToString("F2", CultureInfo.InvariantCulture);
-			if (MatchBehaviour.Clock>PlayerPrefs.GetFloat("BestScorePulse")){
-				PlayerPrefs.SetFloat("BestScorePulse",MatchBehaviour.Clock);
+			if (Stopwatch.Clock > PlayerPrefs.GetFloat("BestScorePulse")){
+				PlayerPrefs.SetFloat("BestScorePulse", Stopwatch.Clock);
 				actualTime.color = accent;
 				bestTime.color = grey;
 				best.SetActive(true);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PhysicalBackButton : MonoBehaviour {
+public class BackButton : MonoBehaviour {
 
 	public MainButtons MainButtons;
 	public ScrollSnapVariate GameModeScroll;
@@ -14,7 +14,6 @@ public class PhysicalBackButton : MonoBehaviour {
 	private void Start()
 	{
 		GM = GameManager.GM;
-		Debug.Log(GM.GameState);
 	}
 
 	// Update is called once per frame

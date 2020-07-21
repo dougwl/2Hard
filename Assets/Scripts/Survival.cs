@@ -25,7 +25,7 @@ public class Survival : MonoBehaviour {
 	}
 	
 	private void Update() {
-		if (GM.GameState == GameState.InGame) clock = MatchBehaviour.Clock;
+		if (GM.GameState == GameState.InGame) clock = Stopwatch.Clock;
 		if (aux < (int)(clock/10) && aux <6){
 			aux++;
 			GameObject temp = Instantiate(Enemy,transform.position,transform.rotation,Board);
