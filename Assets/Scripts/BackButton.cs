@@ -9,7 +9,7 @@ public class BackButton : MonoBehaviour {
 	private GameManager GM;
 
 
-#if  UNITY_ANDROID
+#if  UNITY_ANDROID || UNITY_EDITOR
 
 	private void Start()
 	{

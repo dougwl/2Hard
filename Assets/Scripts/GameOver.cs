@@ -13,11 +13,11 @@ public class GameOver : MonoBehaviour {
 	
 	[SerializeField] private GameObject touch;
 	[SerializeField] private GameObject particles;
-	[SerializeField] private GameObject HolderGameOver;
+	[SerializeField] private CanvasGroup HolderGameOver;
 
 	[SerializeField] public static List<GameObject> enemy;
 	
-	[SerializeField] private GameObject darkFilter;
+	[SerializeField] private CanvasGroup DarkFilter;
 
 	[SerializeField] private Color accent;
 	[SerializeField] private Color grey;
@@ -25,6 +25,7 @@ public class GameOver : MonoBehaviour {
 	[SerializeField] private Text pointsText;
 	[SerializeField] private Text matchpoints;
 	[SerializeField] private Image gift;
+	
 
 	public BackButton androidBack;
 	
@@ -39,9 +40,11 @@ public class GameOver : MonoBehaviour {
 		particles.SetActive(true);
 		actualTime.gameObject.SetActive(true);
 
-		StartCoroutine(darkFilter.GetComponent<Darkening>().FadeInSprite());
+		//StartCoroutine(GameOverFadeIn(DarkFilter));
+		//StartCoroutine(GameOverFadeIn(HolderGameOver));
 
-		StartCoroutine(GameOverFadeIn());
+		StartCoroutine(FadeInSprite(DarkFilter));
+		StartCoroutine(FadeInSprite(HolderGameOver));
 
 		PlayerPrefs.SetInt("Points",PlayerPrefs.GetInt("Points") + MatchBehaviour.Points);
 
@@ -75,8 +78,24 @@ public class GameOver : MonoBehaviour {
 
 		HolderGameOver.GetComponent<CanvasGroup>().blocksRaycasts = true;
 	}
- 
-     public IEnumerator scoreLerp () {
+
+	public IEnumerator FadeInSprite(CanvasGroup filter)
+	{
+		while (filter.alpha != 1f)
+		{
+			float decelerate = Mathf.Min(7.5f * Time.deltaTime, 1f);
+
+			filter.alpha = Mathf.Lerp(filter.alpha, 1f, decelerate);
+
+			if (filter.alpha > 0.999f)
+			{
+				filter.alpha = 1f;
+			}
+			yield return null;
+		}
+	}
+
+	public IEnumerator scoreLerp () {
 		 
 		 float lerp = 0f, duration = 1f, score = 0;
 
@@ -89,19 +108,19 @@ public class GameOver : MonoBehaviour {
 		actualTime.text = Stopwatch.Clock.ToString("F2", CultureInfo.InvariantCulture);
      }
 
-	 private IEnumerator GameOverFadeIn() {
+	// private IEnumerator GameOverFadeIn(CanvasGroup filter) {
 		
-		float decelerate = 0f;
-		while(HolderGameOver.GetComponent<CanvasGroup>().alpha!=1f){
-			decelerate += Time.deltaTime;
-			HolderGameOver.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(HolderGameOver.GetComponent<CanvasGroup>().alpha, 1f, decelerate);
+	//	float decelerate = 0f;
+	//	while(filter.alpha!=1f){
+	//		decelerate += Time.deltaTime;
+	//		filter.alpha = Mathf.Lerp(filter.alpha, 1f, decelerate);
 
-			if (HolderGameOver.GetComponent<CanvasGroup>().alpha > 0.95f) {
-				HolderGameOver.GetComponent<CanvasGroup>().alpha = 1;
-			}
-			yield return null;
-		}
-	}
+	//		if (filter.alpha > 0.95f) {
+	//			filter.alpha = 1;
+	//		}
+	//		yield return null;
+	//	}
+	//}
 
 	private void Awake() {
 		GameManager.GM.gameStateObj = this.gameObject;

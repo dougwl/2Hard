@@ -1428,12 +1428,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 429516447}
   m_CullTransparentMesh: 0
---- !u!1 &430814287 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4461983057644987396, guid: 42889b1b85a870f4aa3797dbf552b243,
-    type: 3}
-  m_PrefabInstance: {fileID: 4461983057784606795}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &434777626
 GameObject:
   m_ObjectHideFlags: 0
@@ -7358,7 +7352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c9ef81c870e0e4784ce69508798492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 1187127291}
+  board: {fileID: 4461983057784606796}
 --- !u!4 &993351145
 Transform:
   m_ObjectHideFlags: 0
@@ -8093,12 +8087,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1179956493}
   m_CullTransparentMesh: 0
---- !u!225 &1187127291 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 4461983056824242096, guid: 42889b1b85a870f4aa3797dbf552b243,
-    type: 3}
-  m_PrefabInstance: {fileID: 4461983057784606795}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1205062953
 GameObject:
   m_ObjectHideFlags: 0
@@ -9327,22 +9315,10 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 2678696733753460951}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2678696733753460952}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53c74ed919a3b9a4f836edd17bfe6b8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1665450685 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2678696734336158314, guid: 9107e35e873c41f46876cb4b0c9ddc5a,
-    type: 3}
-  m_PrefabInstance: {fileID: 2678696733753460951}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afee46f5045f62c4fa3668dedece1ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1675479134 stripped
@@ -10036,7 +10012,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1915936040}
-  - component: {fileID: 1915936037}
   - component: {fileID: 1915936039}
   - component: {fileID: 1915936038}
   - component: {fileID: 1915936041}
@@ -10047,18 +10022,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1915936037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1915936036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3230eeff04f42d4b87b1a4bc5ce59de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1915936038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15891,12 +15854,12 @@ PrefabInstance:
         type: 3}
       propertyPath: darkfilter
       value: 
-      objectReference: {fileID: 1187127291}
+      objectReference: {fileID: 4461983057784606796}
     - target: {fileID: 2678696734336158315, guid: 9107e35e873c41f46876cb4b0c9ddc5a,
         type: 3}
       propertyPath: fading
       value: 
-      objectReference: {fileID: 1187127291}
+      objectReference: {fileID: 4461983057784606796}
     - target: {fileID: 2678696734336158316, guid: 9107e35e873c41f46876cb4b0c9ddc5a,
         type: 3}
       propertyPath: enemies.Array.data[0]
@@ -15977,8 +15940,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2678696734336158314, guid: 9107e35e873c41f46876cb4b0c9ddc5a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9107e35e873c41f46876cb4b0c9ddc5a, type: 3}
+--- !u!1 &2678696733753460952 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2678696734336158306, guid: 9107e35e873c41f46876cb4b0c9ddc5a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2678696733753460951}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2678696733753460953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2678696733753460952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2becb18f6b20b4f498a2a4d0bb5020da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainButtons: {fileID: 1665450684}
+  GameModeScroll: {fileID: 1310379720}
 --- !u!1001 &4461983057784606795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15986,6 +15970,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2069521421466182941, guid: 42889b1b85a870f4aa3797dbf552b243,
+        type: 3}
+      propertyPath: m_Name
+      value: DarkFilterRestart
+      objectReference: {fileID: 0}
     - target: {fileID: 4461983056455366658, guid: 42889b1b85a870f4aa3797dbf552b243,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -16113,6 +16102,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42889b1b85a870f4aa3797dbf552b243, type: 3}
+--- !u!225 &4461983057784606796 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 4760557585745015889, guid: 42889b1b85a870f4aa3797dbf552b243,
+    type: 3}
+  m_PrefabInstance: {fileID: 4461983057784606795}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &4461983057784606797 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 4461983057644987418, guid: 42889b1b85a870f4aa3797dbf552b243,
+    type: 3}
+  m_PrefabInstance: {fileID: 4461983057784606795}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8142540276393960287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16209,7 +16210,7 @@ PrefabInstance:
         type: 3}
       propertyPath: HolderGameOver
       value: 
-      objectReference: {fileID: 430814287}
+      objectReference: {fileID: 4461983057784606797}
     - target: {fileID: 8142540276362262579, guid: d476056bd34c3eb4295feed196b22e25,
         type: 3}
       propertyPath: darkFilter
@@ -16234,7 +16235,12 @@ PrefabInstance:
         type: 3}
       propertyPath: androidBack
       value: 
-      objectReference: {fileID: 1665450685}
+      objectReference: {fileID: 2678696733753460953}
+    - target: {fileID: 8142540276362262579, guid: d476056bd34c3eb4295feed196b22e25,
+        type: 3}
+      propertyPath: DarkFilter
+      value: 
+      objectReference: {fileID: 1915936041}
     - target: {fileID: 8142540276362262580, guid: d476056bd34c3eb4295feed196b22e25,
         type: 3}
       propertyPath: m_Name

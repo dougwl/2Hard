@@ -48,8 +48,8 @@ public class MatchBehaviour : MonoBehaviour {
 	} 
 
 	public void SpawnPoint(){
-        GameObject temp = Instantiate(Point, Vector3.zero, Quaternion.identity, Board);
-		temp.GetComponent<Point>().MatchBehaviour = this;
+        GameObject point = Instantiate(Point, Vector3.zero, Quaternion.identity, Board);
+		point.GetComponent<Point>().MatchBehaviour = this;
 	}
 
 	public void UpdatePoints()
