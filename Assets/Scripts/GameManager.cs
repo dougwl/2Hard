@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
 
     public float screenWidth { get; private set; }
 
+    public float screenHeight { get; private set; } = 1920;
+
     private void Awake()
     {
         if (GM == null) GM = this;
