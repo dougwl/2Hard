@@ -8,7 +8,7 @@ public class ModeSwitch : MonoBehaviour {
     private GameManager GM;
     public Dictionary<GameMode, Action<bool>> Modes;
 
-    void Awake(){
+    void Start(){
         GM = GameManager.GM;
         PopulateDictionary();
         GameManager.GM.ModeSwitch = this;
@@ -31,10 +31,10 @@ public class ModeSwitch : MonoBehaviour {
         if (GM.GameMode != GameMode.Normal)
         {
             GM.ChangeGameMode(GameMode.Normal);
-            GM.enMan.ResetStart();
-            GM.enMan.SetDefault();
-            GM.enMan.NormalSpeed();
-            if (GM.GameState == GameState.MainMenu) GM.enMan.StartMovement();
+            GM.EnemyManager.ResetStart();
+            GM.EnemyManager.DefaultConfig();
+            GM.EnemyManager.DefaultSpeedConfig();
+            if (GM.GameState == GameState.MainMenu) GM.EnemyManager.StartMovement();
         }
         if (!isRandom) GM.modeMenu.GetComponent<ModeMenuAnimations>().NormalMode();
     }
@@ -45,11 +45,11 @@ public class ModeSwitch : MonoBehaviour {
         if (GM.GameMode != GameMode.Duo)
         {
             GM.ChangeGameMode(GameMode.Duo);
-            GM.enMan.ResetStart();
-            GM.enMan.TwoBalls();
-            GM.enMan.SetDefault();
-            GM.enMan.NormalSpeed();
-            if (GM.GameState == GameState.MainMenu) GM.enMan.StartMovement();
+            GM.EnemyManager.ResetStart();
+            GM.EnemyManager.TwoBallsConfig();
+            GM.EnemyManager.DefaultConfig();
+            GM.EnemyManager.DefaultSpeedConfig();
+            if (GM.GameState == GameState.MainMenu) GM.EnemyManager.StartMovement();
         }
         if (!isRandom) GM.modeMenu.GetComponent<ModeMenuAnimations>().TwoBallsMode();
     }
@@ -60,10 +60,10 @@ public class ModeSwitch : MonoBehaviour {
         if (GM.GameMode != GameMode.Slow)
         {
             GM.ChangeGameMode(GameMode.Slow);
-            GM.enMan.ResetStart();
-            GM.enMan.SetDefault();
-            GM.enMan.SlowMode();
-            if (GM.GameState == GameState.MainMenu) GM.enMan.StartMovement();
+            GM.EnemyManager.ResetStart();
+            GM.EnemyManager.DefaultConfig();
+            GM.EnemyManager.SlowSpeedConfig();
+            if (GM.GameState == GameState.MainMenu) GM.EnemyManager.StartMovement();
         }
         if (!isRandom) GM.modeMenu.GetComponent<ModeMenuAnimations>().SlowBallsMode();
     }
@@ -74,11 +74,11 @@ public class ModeSwitch : MonoBehaviour {
         if (GM.GameMode != GameMode.NoWalls)
 		{
             GM.ChangeGameMode(GameMode.NoWalls);
-            GM.enMan.ResetStart();
-            GM.enMan.SetDefault();
-            GM.enMan.NormalSpeed();
-            GM.enMan.NoWalls();
-            if (GM.GameState == GameState.MainMenu) GM.enMan.StartMovement();
+            GM.EnemyManager.ResetStart();
+            GM.EnemyManager.DefaultConfig();
+            GM.EnemyManager.DefaultSpeedConfig();
+            GM.EnemyManager.NoWallsConfig();
+            if (GM.GameState == GameState.MainMenu) GM.EnemyManager.StartMovement();
         }
         if (!isRandom) GM.modeMenu.GetComponent<ModeMenuAnimations>().NoWallsMode();
 	}
@@ -89,10 +89,10 @@ public class ModeSwitch : MonoBehaviour {
         if (GM.GameMode != GameMode.Survival)
         {
             GM.ChangeGameMode(GameMode.Survival);
-            GM.enMan.ResetStart();
-            GM.enMan.SetDefault();
-            GM.enMan.Survival();
-            if (GM.GameState == GameState.MainMenu) GM.enMan.StartMovement();
+            GM.EnemyManager.ResetStart();
+            GM.EnemyManager.DefaultConfig();
+            GM.EnemyManager.SurvivalConfig();
+            if (GM.GameState == GameState.MainMenu) GM.EnemyManager.StartMovement();
         }
         if (!isRandom) GM.modeMenu.GetComponent<ModeMenuAnimations>().SurvivalMode();
     }
@@ -103,11 +103,11 @@ public class ModeSwitch : MonoBehaviour {
         if (GM.GameMode != GameMode.Pulse)
 		{
             GM.ChangeGameMode(GameMode.Pulse);
-            GM.enMan.ResetStart();
-            GM.enMan.SetDefault();
-            GM.enMan.NormalSpeed();
-            GM.enMan.Pulse();
-            if (GM.GameState == GameState.MainMenu) GM.enMan.StartMovement();
+            GM.EnemyManager.ResetStart();
+            GM.EnemyManager.DefaultConfig();
+            GM.EnemyManager.DefaultSpeedConfig();
+            GM.EnemyManager.PulseConfig();
+            if (GM.GameState == GameState.MainMenu) GM.EnemyManager.StartMovement();
         }
         if (!isRandom) GM.modeMenu.GetComponent<ModeMenuAnimations>().PulsingMode();
 	}
@@ -118,10 +118,10 @@ public class ModeSwitch : MonoBehaviour {
         if (GM.GameMode != GameMode.Ghost)
         {
             GM.ChangeGameMode(GameMode.Ghost);
-            GM.enMan.SetGhost();
-            GM.enMan.ResetStart();
-            GM.enMan.NormalSpeed();
-            if (GM.GameState == GameState.MainMenu) GM.enMan.StartMovement();
+            GM.EnemyManager.GhostConfig();
+            GM.EnemyManager.ResetStart();
+            GM.EnemyManager.DefaultSpeedConfig();
+            if (GM.GameState == GameState.MainMenu) GM.EnemyManager.StartMovement();
         }
         if (!isRandom) GM.modeMenu.GetComponent<ModeMenuAnimations>().GhostBallsMode();
     }

@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class TrailsSize : MonoBehaviour {
 
-	private MovimentBalls mb;
+	private EnemyMovement mb;
 	private float finalTime;
 	public float pp;
 	private float rand;
 
 	// Use this for initialization
 	void Start () {
-		mb = GetComponentInParent<MovimentBalls>();
+		mb = GetComponentInParent<EnemyMovement>();
 		finalTime = GetComponent<TrailRenderer>().time;
 		rand = Random.Range(0.1f,0.7f);
 	}

@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameStateObj;  // RENAME THIS THING
     public GameObject modeMenu;
 
-    public EnemyManager enMan;
+    public EnemyManager EnemyManager;
     public ModeSwitch ModeSwitch;
 
     public bool Playing = false;
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     public void Play()
     {
         Playing = true;
-        enMan.StartMovement();
+        EnemyManager.StartMovement();
     }
 
     public void StartMenu()

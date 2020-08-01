@@ -23,9 +23,22 @@ public class PlayerMovement : MonoBehaviour
     private Touch CurrentTouch;
 
     private GameManager GM;
-    private Canvas ParentCanvas;
 
-    private Vector2 TouchPosition;
+    private Camera WorldCamera;
+
+    private RectTransform Rect;
+
+    private class ScreenLimit
+    {
+        public float Left, Right, Top, Bottom;
+        
+        private ScreenLimit(Vector2 screenBorder, float offset = 0){
+            Left = -(screenBorder.x/2) + offset;
+            Right = (screenBorder.x/2) - offset;
+            Top = (screenBorder.y/2) - offset;
+            Bottom = -(screenBorder.y/2) + offset;
+        }
+    }
 
     private void Awake()
     {
@@ -41,10 +54,8 @@ public class PlayerMovement : MonoBehaviour
         BottomLimit = -GM.screenHeight / 2 + PlayerLimit;
 
         GetComponent<BoxCollider2D>().size = new Vector2(GM.screenWidth, GM.screenHeight);
-        ParentCanvas = GetComponentInParent<Canvas>();
-
-
-        //Player.GetComponent<RectTransform>().position = new Vector2(0,0);
+        WorldCamera = GetComponentInParent<Canvas>().worldCamera;
+        Rect = GetComponent<RectTransform>();
     }
 
     private void Start()
@@ -56,9 +67,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 convertedPosition;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            ParentCanvas.transform as RectTransform,
-            position, ParentCanvas.worldCamera,
-        out convertedPosition);
+            Rect, position, WorldCamera, out convertedPosition);
         return convertedPosition;
     }
 
@@ -96,30 +105,6 @@ public class PlayerMovement : MonoBehaviour
 #endif
     }
 
-    private void SetPlayerInsideLimits(float limit, bool isHorizontal = true)
-    {
-        IsInsideLimit = false;
-
-        if (TouchOrigin.x < WorldToCanvasPosition(CurrentTouch.position).x && isHorizontal && limit < 0 || 
-        	TouchOrigin.x > WorldToCanvasPosition(CurrentTouch.position).x && isHorizontal && limit > 0 || 
-			TouchOrigin.y < WorldToCanvasPosition(CurrentTouch.position).y && !isHorizontal && limit < 0 ||
-			TouchOrigin.y > WorldToCanvasPosition(CurrentTouch.position).y && !isHorizontal && limit > 0)
-        {
-            IsInsideLimit = true;
-        }
-        else
-        {
-            if (isHorizontal)
-				PlayerBody.anchoredPosition = new Vector2(limit, WorldToCanvasPosition(CurrentTouch.position).y - TouchOrigin.y + PlayerOrigin.y);
-            else
-				PlayerBody.anchoredPosition = new Vector2(WorldToCanvasPosition(CurrentTouch.position).x - TouchOrigin.x + PlayerOrigin.x, limit);
-
-			TouchOrigin = WorldToCanvasPosition(CurrentTouch.position);
-            PlayerOrigin = PlayerBody.anchoredPosition;
-            IsInsideLimit = true;
-        }
-    }
-
     private void OnDrag()
     {
 
@@ -155,6 +140,30 @@ public class PlayerMovement : MonoBehaviour
             {
                 PlayerBody.anchoredPosition = WorldToCanvasPosition(CurrentTouch.position) - TouchOrigin + PlayerOrigin;
             }
+        }
+    }
+
+    private void SetPlayerInsideLimits(float limit, bool isHorizontal = true)
+    {
+        IsInsideLimit = false;
+
+        if (TouchOrigin.x < WorldToCanvasPosition(CurrentTouch.position).x && isHorizontal && limit < 0 || 
+        	TouchOrigin.x > WorldToCanvasPosition(CurrentTouch.position).x && isHorizontal && limit > 0 || 
+			TouchOrigin.y < WorldToCanvasPosition(CurrentTouch.position).y && !isHorizontal && limit < 0 ||
+			TouchOrigin.y > WorldToCanvasPosition(CurrentTouch.position).y && !isHorizontal && limit > 0)
+        {
+            IsInsideLimit = true;
+        }
+        else
+        {
+            if (isHorizontal)
+				PlayerBody.anchoredPosition = new Vector2(limit, WorldToCanvasPosition(CurrentTouch.position).y - TouchOrigin.y + PlayerOrigin.y);
+            else
+				PlayerBody.anchoredPosition = new Vector2(WorldToCanvasPosition(CurrentTouch.position).x - TouchOrigin.x + PlayerOrigin.x, limit);
+
+			TouchOrigin = WorldToCanvasPosition(CurrentTouch.position);
+            PlayerOrigin = PlayerBody.anchoredPosition;
+            IsInsideLimit = true;
         }
     }
 

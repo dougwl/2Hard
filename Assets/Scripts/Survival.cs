@@ -29,8 +29,8 @@ public class Survival : MonoBehaviour {
 		if (aux < (int)(clock/10) && aux <6){
 			aux++;
 			GameObject temp = Instantiate(Enemy,transform.position,transform.rotation,Board);
-			temp.GetComponent<MovimentBalls>().speed = gameObject.GetComponent<MovimentBalls>().speed;
-			temp.GetComponent<MovimentBalls>().accel = gameObject.GetComponent<MovimentBalls>().accel;
+			temp.GetComponent<EnemyMovement>().speed = gameObject.GetComponent<EnemyMovement>().speed;
+			temp.GetComponent<EnemyMovement>().accel = gameObject.GetComponent<EnemyMovement>().accel;
 			if (GM.GameState == GameState.InGame) GameOver.enemy.Add(temp);
 		}
 	}

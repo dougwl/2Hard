@@ -5,171 +5,195 @@ using UnityEngine.UI;
 
 public class EnemyManager : MonoBehaviour {
 
-	public List<GameObject> enemies;
-	private float origSize; 
-	public Gradient normal;
-	public Gradient ghost;
+	[SerializeField] private List<GameObject> Enemies;
+	private float OriginalSize; 
+	[SerializeField] private Gradient DefaultTrailGradient;
+	[SerializeField] private Gradient GhostTrailGradient;
+	private List<EnemyMovement> EnemiesMovement;
+	private List<CircleCollider2D> CircleColliders;
+	private List<Image> Images;
+	private List<List<TrailRenderer>> ChildrenTrailRenderers;
+	private List<RectTransform> RectTransforms;
 	private GameManager GM;
 
+	private Survival SurvivalEnemy;
+
 	private void Start(){
-		origSize = enemies[1].GetComponent<RectTransform>().rect.width;
+		EnemiesMovement = new List<EnemyMovement>();
+		CircleColliders = new List<CircleCollider2D>();
+		Images = new List<Image>();
+		ChildrenTrailRenderers = new List<List<TrailRenderer>>();
+		RectTransforms = new List<RectTransform>();
+		
+		foreach (GameObject enemy in Enemies)
+		{
+			EnemiesMovement.Add(enemy.GetComponent<EnemyMovement>());
+			CircleColliders.Add(enemy.GetComponent<CircleCollider2D>());
+			Images.Add(enemy.GetComponent<Image>());
+			List<TrailRenderer> chTrails = new List<TrailRenderer>();
+			foreach (TrailRenderer trail in enemy.GetComponentsInChildren<TrailRenderer>())
+			{
+				chTrails.Add(trail);
+			}
+			ChildrenTrailRenderers.Add(chTrails);
+			RectTransforms.Add(enemy.GetComponent<RectTransform>());
+		}
+
+		SurvivalEnemy = Enemies[4].GetComponent<Survival>();
+		OriginalSize = RectTransforms[0].rect.width;
 		GM = GameManager.GM;
-		GM.enMan = this;
-		ConfigMode();
+		GM.EnemyManager = this;
+		SetupMode();
 	}
 
-	private void ConfigMode(){
-		if (GM.GameMode == GameMode.Slow) SlowMode();
-		else NormalSpeed();
-		if (GM.GameMode == GameMode.Ghost) SetGhost();	
-		if (GM.GameMode == GameMode.Duo) TwoBalls();	
-		if (GM.GameMode == GameMode.Survival) Survival();
-		if (GM.GameMode == GameMode.Pulse) Pulse();
-		if (GM.GameMode == GameMode.NoWalls) NoWalls();
+	private void SetupMode(){
+		if (GM.GameMode == GameMode.Slow) SlowSpeedConfig();
+		else DefaultSpeedConfig();
+		if (GM.GameMode == GameMode.Ghost) GhostConfig();	
+		if (GM.GameMode == GameMode.Duo) TwoBallsConfig();	
+		if (GM.GameMode == GameMode.Survival) SurvivalConfig();
+		if (GM.GameMode == GameMode.Pulse) PulseConfig();
+		if (GM.GameMode == GameMode.NoWalls) NoWallsConfig();
 	}
 
 	public void StartMovement(){
-
-		foreach (GameObject ball in enemies)
+		foreach (EnemyMovement enemy in EnemiesMovement)
 		{
-			if(ball.GetComponent<MovimentBalls>().isActiveAndEnabled){
-				ball.GetComponent<MovimentBalls>().Move();
+			if(enemy.isActiveAndEnabled) enemy.Move();
+		}
+	}
+
+	public void DefaultConfig(){
+		for (int i = 0; i < Enemies.Count; i++)
+		{
+			Images[i].color = new Color(Images[i].color.r, Images[i].color.g, Images[i].color.b, 1f);
+			CircleColliders[i].isTrigger = false;
+			EnemiesMovement[i].directionRange = 1f;
+			foreach (TrailRenderer trail in ChildrenTrailRenderers[i])
+			{
+				trail.colorGradient = DefaultTrailGradient;
 			}
 		}
 	}
 
-	public void SetDefault(){
-		foreach (GameObject obj in enemies)
+	public void GhostConfig(){
+		for (int i = 0; i < Enemies.Count; i++)
 		{
-			Image sprite = obj.GetComponent<Image>();
-			sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1f);
-			obj.GetComponent<CircleCollider2D>().isTrigger = false;
-			obj.GetComponent<MovimentBalls>().directionRange = 1f;
-			foreach (TrailRenderer tr in obj.GetComponentsInChildren<TrailRenderer>()){
-				tr.colorGradient = normal;
+			Images[i].color = new Color(Images[i].color.r, Images[i].color.g, Images[i].color.b, 0.5f);
+			CircleColliders[i].isTrigger = true;
+			EnemiesMovement[i].directionRange = 3f;
+			foreach (TrailRenderer trail in ChildrenTrailRenderers[i])
+			{
+				trail.colorGradient = GhostTrailGradient;
 			}
 		}
 	}
 
-	public void SetGhost(){
-		foreach (GameObject obj in enemies)
+	public void SlowSpeedConfig(){
+		foreach (EnemyMovement enemy in EnemiesMovement)
 		{
-			Image sprite = obj.GetComponent<Image>();
-			sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0.5f);
-			obj.GetComponent<CircleCollider2D>().isTrigger = true;
-			obj.GetComponent<MovimentBalls>().directionRange = 3f;
-			foreach (TrailRenderer tr in obj.GetComponentsInChildren<TrailRenderer>()){
-				tr.colorGradient = ghost;
-			}
+			enemy.speed = 1.25f;
+			enemy.accel = 1.5f;
 		}
-	}
-
-	public void SlowMode(){
-
-		foreach (GameObject ball in enemies)
-		{
-			ball.GetComponent<MovimentBalls>().speed = 1.25f;
-			ball.GetComponent<MovimentBalls>().accel = 1.5f;	
-		}
-
 	}
 	
-	public void NormalSpeed(){
-		foreach (GameObject ball in enemies)
+	public void DefaultSpeedConfig(){
+		foreach (EnemyMovement enemy in EnemiesMovement)
 		{
-			ball.GetComponent<MovimentBalls>().speed = 2.5f;
-			ball.GetComponent<MovimentBalls>().accel = 3f;
+			enemy.speed = 2.5f;
+			enemy.accel = 3f;
 		}
 	}
 
-	public void TwoBalls(){
+	public void TwoBallsConfig(){
 
-		enemies[2].SetActive(false);
-		enemies[3].SetActive(false);
-
-		foreach (GameObject ball in enemies)
+		for (int i = 0; i < Enemies.Count; i++)
 		{
-			if(ball.activeSelf){
-				ball.GetComponent<MovimentBalls>().start = false;
+			if(Enemies[i].activeSelf){
+				EnemiesMovement[i].start = false;
 			}
-			
 		}
+
+		Enemies[2].SetActive(false);
+		Enemies[3].SetActive(false);
+
 	}
 
-	public void NoWalls(){
-		foreach (GameObject ball in enemies)
+	public void NoWallsConfig(){
+		foreach (EnemyMovement enemy in EnemiesMovement)
 		{
-			ball.GetComponent<MovimentBalls>().enemyForce = 120f;
+			enemy.enemyForce = 120f;
 		}
 	}
 
 	public void ResetStart(){
 
-		for (int i = 0; i < enemies.Count-1; i++) //WTF IS THIS, search for a new way to reset speed without turning the shit off.
+		for (int i = 0; i < Enemies.Count-1; i++) //WTF IS THIS, search for a new way to reset speed without turning the shit off.
 		{
-			enemies[i].SetActive(false);
-			enemies[i].SetActive(true);
+			Enemies[i].SetActive(false);
+			Enemies[i].SetActive(true);
 		}
 		
-		enemies[4].SetActive(false);
+		Enemies[4].SetActive(false);
 
-		foreach (GameObject obj in enemies)
+		for (int i = 0; i < Enemies.Count; i++)
 		{
-			obj.GetComponent<MovimentBalls>().start = false;
-			obj.GetComponent<MovimentBalls>().enemyForce = 25f;
-			obj.GetComponent<RectTransform>().sizeDelta = new Vector2 (origSize,origSize);
-			obj.GetComponent<CircleCollider2D>().radius = origSize/2f;
-			foreach(Transform tr in obj.transform){
-				if (tr.CompareTag("shadow")) {  // Loko 
-					tr.localScale = new Vector2 (1,1);
-					tr.localPosition = new Vector2 (6.6f,-6.6f);
+			EnemiesMovement[i].start = false;
+			EnemiesMovement[i].enemyForce = 25f;
+			RectTransforms[i].sizeDelta = new Vector2 (OriginalSize,OriginalSize);
+			CircleColliders[i].radius = OriginalSize/2;
+			foreach (Transform enemyChild in Enemies[i].transform)
+			{
+				if(enemyChild.CompareTag("shadow")){
+					enemyChild.localScale = new Vector2 (1,1);
+					enemyChild.localPosition = new Vector2 (6.6f,-6.6f);
 				}
-				if (tr.CompareTag("trails")) {
-					tr.localScale = new Vector2 (1,1);
+				if (enemyChild.CompareTag("trails")) {
+					enemyChild.localScale = new Vector2 (1,1);
 				}
 			}
 		}
 
 	}
 
-	public void Survival(){
-		for (int i = 0; i < enemies.Count-1; i++)
+	public void SurvivalConfig(){
+		for (int i = 0; i < Enemies.Count-1; i++)
 		{
-			enemies[i].SetActive(false);
+			Enemies[i].SetActive(false);
 		}
 
-		enemies[4].SetActive(true);
-		SlowMode();
-		if (GM.GameState == GameState.MainMenu) StartCoroutine(enemies[4].GetComponent<Survival>().Timer());
+		Enemies[4].SetActive(true);
+		SlowSpeedConfig();
+		if (GM.GameState == GameState.MainMenu) StartCoroutine(SurvivalEnemy.Timer());
 		}
 
-	public void Pulse(){
-		foreach (GameObject ball in enemies)
+	public void PulseConfig(){
+		for (int i = 0; i < Enemies.Count; i++)
 		{
-			StartCoroutine(Pulsing(ball));
+			StartCoroutine(Pulsing(Enemies[i],RectTransforms[i],CircleColliders[i]));
 		}
 	}
 
-	private IEnumerator Pulsing(GameObject ball){
+	private IEnumerator Pulsing(GameObject enemy, RectTransform enemyRect, CircleCollider2D enemyCollider){
 		
-		float pp;
-		float rand = Random.Range(0.1f,0.5f);
+		float pingPong;
+		float randomValue = Random.Range(0.1f,0.5f);
 		Transform shadow = null;
 		Transform trails = null;
 
-		foreach(Transform tr in ball.transform){
+		foreach(Transform tr in enemy.transform){
 			if (tr.tag == "shadow") shadow = tr;
 			if (tr.tag == "trails") trails = tr;
 		}
-		
+
 		while (GameManager.GM.GameMode == GameMode.Pulse){
 			if (GameManager.GM.GameState != GameState.GameOver){
-				pp = 0.5f + Mathf.PingPong(Time.time * rand, 1f);
-				ball.GetComponent<RectTransform>().sizeDelta = new Vector2 (pp*origSize,pp*origSize);
-				ball.GetComponent<CircleCollider2D>().radius = pp * origSize/2;
-				shadow.localScale = new Vector2 (pp,pp);
-				shadow.localPosition = new Vector2 (6.6f*pp,-6.6f*pp);
-				trails.localScale = new Vector2 (pp,pp);
+				pingPong = 0.5f + Mathf.PingPong(Time.time * randomValue, 1f);
+				enemyRect.sizeDelta = new Vector2 (pingPong*OriginalSize,pingPong*OriginalSize);
+				enemyCollider.radius = pingPong * OriginalSize/2;
+				shadow.localScale = new Vector2 (pingPong,pingPong);
+				shadow.localPosition = new Vector2 (6.6f*pingPong,-6.6f*pingPong);
+				trails.localScale = new Vector2 (pingPong,pingPong);
 			}
 			yield return null;
 		}
