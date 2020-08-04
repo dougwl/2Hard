@@ -122,7 +122,7 @@ public class EnemyManager : MonoBehaviour {
 	public void NoWallsConfig(){
 		foreach (EnemyMovement enemy in EnemiesMovement)
 		{
-			enemy.enemyForce = 120f;
+			enemy.CollisionForce = 120f;
 		}
 	}
 
@@ -134,12 +134,12 @@ public class EnemyManager : MonoBehaviour {
 			Enemies[i].SetActive(true);
 		}
 		
-		Enemies[4].SetActive(false);
+		Enemies[4].SetActive(false); // Need to be changed, adding the survival script to all enemies.
 
 		for (int i = 0; i < Enemies.Count; i++)
 		{
 			EnemiesMovement[i].start = false;
-			EnemiesMovement[i].enemyForce = 25f;
+			EnemiesMovement[i].CollisionForce = 25f;
 			RectTransforms[i].sizeDelta = new Vector2 (OriginalSize,OriginalSize);
 			CircleColliders[i].radius = OriginalSize/2;
 			foreach (Transform enemyChild in Enemies[i].transform)
@@ -176,10 +176,13 @@ public class EnemyManager : MonoBehaviour {
 
 	private IEnumerator Pulsing(GameObject enemy, RectTransform enemyRect, CircleCollider2D enemyCollider){
 		
-		float pingPong;
-		float randomValue = Random.Range(0.1f,0.5f);
+		float timeMod = Random.Range(0.1f,0.5f);
+		float sizePercent;
+		float minimumSizePercent = 0.5f;
+		float shadowOffset = 6.6f;
 		Transform shadow = null;
 		Transform trails = null;
+		float newSize;
 
 		foreach(Transform tr in enemy.transform){
 			if (tr.tag == "shadow") shadow = tr;
@@ -188,12 +191,13 @@ public class EnemyManager : MonoBehaviour {
 
 		while (GameManager.GM.GameMode == GameMode.Pulse){
 			if (GameManager.GM.GameState != GameState.GameOver){
-				pingPong = 0.5f + Mathf.PingPong(Time.time * randomValue, 1f);
-				enemyRect.sizeDelta = new Vector2 (pingPong*OriginalSize,pingPong*OriginalSize);
-				enemyCollider.radius = pingPong * OriginalSize/2;
-				shadow.localScale = new Vector2 (pingPong,pingPong);
-				shadow.localPosition = new Vector2 (6.6f*pingPong,-6.6f*pingPong);
-				trails.localScale = new Vector2 (pingPong,pingPong);
+				sizePercent = minimumSizePercent + Mathf.PingPong(Time.time * timeMod, 1f);
+				newSize = sizePercent * OriginalSize;
+				enemyRect.sizeDelta = new Vector2 (newSize, newSize);
+				enemyCollider.radius = newSize/2;
+				shadow.localScale = new Vector2 (sizePercent,sizePercent);
+				shadow.localPosition = new Vector2 (shadowOffset * sizePercent, -shadowOffset * sizePercent);
+				trails.localScale = new Vector2 (sizePercent,sizePercent);
 			}
 			yield return null;
 		}

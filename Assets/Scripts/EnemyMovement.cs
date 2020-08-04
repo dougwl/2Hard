@@ -8,7 +8,7 @@ public class EnemyMovement : MonoBehaviour {
 
 	public float speed = 2.5f;
 	[SerializeField] private static float maxspeed = 10f;
-	public float enemyForce = 25;
+	public float CollisionForce = 25;
 	public float directionRange = 1; //range when enemy hit a wall
 	public float accel = 3f;
 
@@ -161,7 +161,7 @@ public class EnemyMovement : MonoBehaviour {
 		if(coll.gameObject.tag == "Enemy"){
 			Vector2 dir = coll.contacts[0].point - (new Vector2(transform.localPosition.x,transform.localPosition.y));
 			dir = -dir.normalized;
-			GetComponent<Rigidbody2D>().AddRelativeForce(dir*enemyForce);
+			GetComponent<Rigidbody2D>().AddRelativeForce(dir*CollisionForce);
 		}
 
 	}
