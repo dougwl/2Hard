@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,6 +29,10 @@ public class GameManager : MonoBehaviour
 
     public float screenHeight { get; private set; } = 1920;
 
+    public Vector2 ScreenBorder;
+
+    public event Action OnModeChange;
+
     private void Awake()
     {
         if (GM == null) GM = this;
@@ -36,6 +41,7 @@ public class GameManager : MonoBehaviour
         SceneManager.activeSceneChanged += OnSceneLoad;
         ChangeState(GameState.MainMenu);
         screenWidth = Screen.width * 1920 / Screen.height;
+        ScreenBorder = new Vector2(screenWidth,screenWidth);
     }
 
     private void Start()
@@ -83,6 +89,7 @@ public class GameManager : MonoBehaviour
     public void ChangeGameMode(GameMode mode)
     {
         GameMode = mode;
+        OnModeChange();
     }
 
     public void OnSceneLoad(Scene scene, Scene sceneMode)

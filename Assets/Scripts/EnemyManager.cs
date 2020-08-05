@@ -68,7 +68,7 @@ public class EnemyManager : MonoBehaviour {
 		{
 			Images[i].color = new Color(Images[i].color.r, Images[i].color.g, Images[i].color.b, 1f);
 			CircleColliders[i].isTrigger = false;
-			EnemiesMovement[i].directionRange = 1f;
+			EnemiesMovement[i].DirectionRange = 1f;
 			foreach (TrailRenderer trail in ChildrenTrailRenderers[i])
 			{
 				trail.colorGradient = DefaultTrailGradient;
@@ -81,7 +81,7 @@ public class EnemyManager : MonoBehaviour {
 		{
 			Images[i].color = new Color(Images[i].color.r, Images[i].color.g, Images[i].color.b, 0.5f);
 			CircleColliders[i].isTrigger = true;
-			EnemiesMovement[i].directionRange = 3f;
+			EnemiesMovement[i].DirectionRange = 3f;
 			foreach (TrailRenderer trail in ChildrenTrailRenderers[i])
 			{
 				trail.colorGradient = GhostTrailGradient;
@@ -92,16 +92,16 @@ public class EnemyManager : MonoBehaviour {
 	public void SlowSpeedConfig(){
 		foreach (EnemyMovement enemy in EnemiesMovement)
 		{
-			enemy.speed = 1.25f;
-			enemy.accel = 1.5f;
+			enemy.Speed = 1.25f;
+			enemy.Acceleration = 1.5f;
 		}
 	}
 	
 	public void DefaultSpeedConfig(){
 		foreach (EnemyMovement enemy in EnemiesMovement)
 		{
-			enemy.speed = 2.5f;
-			enemy.accel = 3f;
+			enemy.Speed = 2.5f;
+			enemy.Acceleration = 3f;
 		}
 	}
 

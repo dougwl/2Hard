@@ -1,47 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 public class EnemyMovement : MonoBehaviour {
 
-	public Rigidbody2D rb;
+	private Rigidbody2D Rigidbody;
+	private RectTransform RectTransform;
 
-	public float speed = 2.5f;
-	[SerializeField] private static float maxspeed = 10f;
+	public float Speed = 2.5f;
+	[SerializeField] private static float MaxSpeed = 10f;
 	public float CollisionForce = 25;
-	public float directionRange = 1; //range when enemy hit a wall
-	public float accel = 3f;
-
-	private float leftLimit;
-	private float rightLimit;
-	private float topLimit;
-	private float bottomLimit;
-
-	private TrailRenderer[] tr;
-
-	public bool enableTrail = true;
-
+	public float DirectionRange = 1; //range when enemy hit a wall
+	public float Acceleration = 3f;
+	public bool EnableTrail = true;
 	public bool start = false; 
-
-	public bool enable = true;
-
-	public float ballLimit;
-	public float ballOrigSize;
+	private float Radius;
 
     private GameManager GM;
+	
+	private ScreenLimit ScreenLimit;
 
     void Awake() {
 		GM = GameManager.GM;
-
-		//Getting the screen limits
-		leftLimit = -(Screen.width*1920/Screen.height)/2; 
-		rightLimit = -leftLimit;
-		topLimit = 960;
-		bottomLimit = -960;
+		ScreenLimit = new ScreenLimit(GM.ScreenBorder);
 		start = false;
-        rb = GetComponent<Rigidbody2D>();
-		tr = this.GetComponentsInChildren<TrailRenderer>();
-		ballOrigSize = this.GetComponent<RectTransform>().rect.height;
+        Rigidbody = GetComponent<Rigidbody2D>();
+		RectTransform = GetComponent<RectTransform>();
+		GM.OnModeChange += UpdateRadius;
 	}
 
 	void Start(){
@@ -66,89 +52,142 @@ public class EnemyMovement : MonoBehaviour {
 
 	void InitialMove(){
 		//Set a random angle to the ball to start moving
-		rb.AddRelativeForce (new Vector2 (Random.Range(-360,360), Random.Range(-360,360)));
+		Rigidbody.AddRelativeForce (new Vector2 (Random.Range(-360,360), Random.Range(-360,360)));
 	}
+
+	private void UpdateRadius(){
+		Radius = RectTransform.rect.height/2f;
+		
+	}
+
+
+
 	
     private IEnumerator BallsControl()
     {
+		void SetInsideLimits(float limit, bool isHorizontal = true){
+
+			if (this.transform.localPosition.x < ScreenLimit.Left + Radius){
+				Rigidbody.velocity = new Vector2(Rigidbody.velocity.x * -1, Rigidbody.velocity.y);
+				this.transform.localPosition = new Vector3(ScreenLimit.Left + Radius, this.transform.localPosition.y,-1);
+				Vector2 dir = -(new Vector2(transform.localPosition.x + (Random.Range(-DirectionRange,DirectionRange)),transform.localPosition.y).normalized);
+			}
+			
+
+			// Rigidbody.velocity = new Vector2(Rigidbody.velocity.x*-1, Rigidbody.velocity.y);
+			// this.transform.localPosition = new Vector3(ScreenLimit.Right - Radius, this.transform.localPosition.y,-1);
+			// Vector2 dir = -(new Vector2(transform.localPosition.x+(Random.Range(-DirectionRange,DirectionRange)),transform.localPosition.y).normalized);
+			
+			// Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.y*-1);
+			// this.transform.localPosition = new Vector3(this.transform.localPosition.x,ScreenLimit.Bottom + Radius,-1);
+			// Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-DirectionRange,DirectionRange))).normalized);
+			
+			// Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.y*-1);
+			// this.transform.localPosition = new Vector3(this.transform.localPosition.x,ScreenLimit.Top - Radius,-1);
+			// Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-DirectionRange,DirectionRange))).normalized);
+
+		}
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		while (GM.GameState == GameState.MainMenu || (GM.GameState != GameState.GameOver))
 		{
 			//set the ball movement and acceleration
-			rb.velocity = rb.velocity.normalized * speed;
-			if (speed < maxspeed){
-				speed += (accel / 1000);				
-			}
+			Rigidbody.velocity = Rigidbody.velocity.normalized * Speed;
 			
-			ballLimit = this.GetComponent<RectTransform>().rect.height/2f;
+			if (Speed < MaxSpeed) Speed += (Acceleration / 1000);
+			
+			if (GM.GameMode == GameMode.Pulse) Radius = RectTransform.rect.height/2f;
 
+			if (GM.GameMode != GameMode.NoWalls){
 			//prevent the enemy ball to get off screen (left)
-			if (this.transform.localPosition.x<leftLimit + ballLimit && GM.GameMode != GameMode.NoWalls){
-				rb.velocity = new Vector2(rb.velocity.x*-1, rb.velocity.y);
-				this.transform.localPosition = new Vector3(leftLimit + ballLimit,this.transform.localPosition.y,-1);
-				Vector2 dir = -(new Vector2(transform.localPosition.x+(Random.Range(-directionRange,directionRange)),transform.localPosition.y).normalized);
+			if (this.transform.localPosition.x< ScreenLimit.Left + Radius){
+				Rigidbody.velocity = new Vector2(Rigidbody.velocity.x*-1, Rigidbody.velocity.y);
+				this.transform.localPosition = new Vector3(ScreenLimit.Left + Radius,this.transform.localPosition.y,-1);
+				Vector2 dir = -(new Vector2(transform.localPosition.x+(Random.Range(-DirectionRange,DirectionRange)),transform.localPosition.y).normalized);
 			}
 			
 			//prevent the enemy ball to get off screen (right)
-			if (this.transform.localPosition.x>rightLimit - ballLimit && GM.GameMode != GameMode.NoWalls) {
-				rb.velocity = new Vector2(rb.velocity.x*-1, rb.velocity.y);
-				this.transform.localPosition = new Vector3(rightLimit - ballLimit,this.transform.localPosition.y,-1);
-				Vector2 dir = -(new Vector2(transform.localPosition.x+(Random.Range(-directionRange,directionRange)),transform.localPosition.y).normalized);
+			if (this.transform.localPosition.x>ScreenLimit.Right - Radius) {
+				Rigidbody.velocity = new Vector2(Rigidbody.velocity.x*-1, Rigidbody.velocity.y);
+				this.transform.localPosition = new Vector3(ScreenLimit.Right - Radius,this.transform.localPosition.y,-1);
+				Vector2 dir = -(new Vector2(transform.localPosition.x+(Random.Range(-DirectionRange,DirectionRange)),transform.localPosition.y).normalized);
 			}
 			
 			//prevent the enemy ball to get off screen (bottom)
-			if (this.transform.localPosition.y<bottomLimit + ballLimit && GM.GameMode != GameMode.NoWalls) {
-				rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y*-1);
-				this.transform.localPosition = new Vector3(this.transform.localPosition.x,bottomLimit + ballLimit,-1);
-				Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-directionRange,directionRange))).normalized);
+			if (this.transform.localPosition.y<ScreenLimit.Bottom + Radius) {
+				Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.y*-1);
+				this.transform.localPosition = new Vector3(this.transform.localPosition.x,ScreenLimit.Bottom + Radius,-1);
+				Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-DirectionRange,DirectionRange))).normalized);
 			}
 			
 			//prevent the enemy ball to get off screen (top)
-			if (this.transform.localPosition.y>topLimit - ballLimit && GM.GameMode != GameMode.NoWalls) {
-				rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y*-1);
-				this.transform.localPosition = new Vector3(this.transform.localPosition.x,topLimit - ballLimit,-1);
-				Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-directionRange,directionRange))).normalized);
+			if (this.transform.localPosition.y>ScreenLimit.Top - Radius) {
+				Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.y*-1);
+				this.transform.localPosition = new Vector3(this.transform.localPosition.x,ScreenLimit.Top - Radius,-1);
+				Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-DirectionRange,DirectionRange))).normalized);
 			}
 
+			}
 			//WRAPING
-			if (GM.GameMode == GameMode.NoWalls)
+			/* else
 			{
-				if (this.transform.localPosition.x + ballLimit < leftLimit){
-					enableTrail = false;
+				if (this.transform.localPosition.x + Radius < leftLimit){
+					EnableTrail = false;
 					ParticleSystem.EmissionModule a = GetComponentInChildren<ParticleSystem>().emission;
 					a.enabled = false;
-					this.transform.localPosition = new Vector3(rightLimit + ballLimit - 0.01f ,this.transform.localPosition.y,-1);					
+					this.transform.localPosition = new Vector3(rightLimit + Radius - 0.01f ,this.transform.localPosition.y,-1);					
 				}
 			
 				//prevent the enemy ball to get off screen (right)
-				else if (this.transform.localPosition.x - ballLimit > rightLimit) {
-					enableTrail = false;
+				else if (this.transform.localPosition.x - Radius > rightLimit) {
+					EnableTrail = false;
 					ParticleSystem.EmissionModule a = GetComponentInChildren<ParticleSystem>().emission;
 					a.enabled = false;
-					this.transform.localPosition = new Vector3(leftLimit - ballLimit + 0.01f,this.transform.localPosition.y,-1);
+					this.transform.localPosition = new Vector3(leftLimit - Radius + 0.01f,this.transform.localPosition.y,-1);
 				}
 				
 				//prevent the enemy ball to get off screen (bottom)
-				else if (this.transform.localPosition.y + ballLimit < bottomLimit) {
-					enableTrail = false;
+				else if (this.transform.localPosition.y + Radius < bottomLimit) {
+					EnableTrail = false;
 					ParticleSystem.EmissionModule a = GetComponentInChildren<ParticleSystem>().emission;
 					a.enabled = false;
-					this.transform.localPosition = new Vector3(this.transform.localPosition.x,topLimit + ballLimit - 0.01f ,-1);
+					this.transform.localPosition = new Vector3(this.transform.localPosition.x,topLimit + Radius - 0.01f ,-1);
 				}
 				
 				//prevent the enemy ball to get off screen (top)
-				else if (this.transform.localPosition.y - ballLimit > topLimit) {
-					enableTrail = false;
+				else if (this.transform.localPosition.y - Radius > topLimit) {
+					EnableTrail = false;
 					ParticleSystem.EmissionModule a = GetComponentInChildren<ParticleSystem>().emission;
 					a.enabled = false;
-					this.transform.localPosition = new Vector3(this.transform.localPosition.x,bottomLimit - ballLimit + 0.01f ,-1);
+					this.transform.localPosition = new Vector3(this.transform.localPosition.x,bottomLimit - Radius + 0.01f ,-1);
 				}
 				else if (this.transform.localPosition.x > leftLimit && this.transform.localPosition.x < rightLimit && this.transform.localPosition.y > bottomLimit && this.transform.localPosition.y < topLimit){
-					enableTrail = true;
+					EnableTrail = true;
 					ParticleSystem.EmissionModule a = GetComponentInChildren<ParticleSystem>().emission;
 					a.enabled = true;
 					
 				}
-			}
+			} */
 			//Warp the enemy ball from left to right
 			
 			yield return new WaitForFixedUpdate();

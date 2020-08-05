@@ -28,18 +28,6 @@ public class PlayerMovement : MonoBehaviour
 
     private RectTransform Rect;
 
-    private class ScreenLimit
-    {
-        public float Left, Right, Top, Bottom;
-        
-        private ScreenLimit(Vector2 screenBorder, float offset = 0){
-            Left = -(screenBorder.x/2) + offset;
-            Right = (screenBorder.x/2) - offset;
-            Top = (screenBorder.y/2) - offset;
-            Bottom = -(screenBorder.y/2) + offset;
-        }
-    }
-
     private void Awake()
     {
         GM = GameManager.GM;
