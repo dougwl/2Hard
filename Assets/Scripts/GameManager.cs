@@ -40,8 +40,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         SceneManager.activeSceneChanged += OnSceneLoad;
         ChangeState(GameState.MainMenu);
-        screenWidth = Screen.width * 1920 / Screen.height;
-        ScreenBorder = new Vector2(screenWidth,screenWidth);
+        screenWidth = Screen.width * screenHeight / Screen.height;
+        ScreenBorder = new Vector2(screenWidth,screenHeight);
     }
 
     private void Start()

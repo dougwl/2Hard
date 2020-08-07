@@ -16,23 +16,22 @@ public class EnemyMovement : MonoBehaviour {
 	public bool EnableTrail = true;
 	public bool start = false; 
 	private float Radius;
-
     private GameManager GM;
-	
 	private ScreenLimit ScreenLimit;
+	private ParticleSystem.EmissionModule Particle;
 
     void Awake() {
-		GM = GameManager.GM;
-		ScreenLimit = new ScreenLimit(GM.ScreenBorder);
 		start = false;
         Rigidbody = GetComponent<Rigidbody2D>();
 		RectTransform = GetComponent<RectTransform>();
-		GM.OnModeChange += UpdateRadius;
+		Particle = GetComponentInChildren<ParticleSystem>().emission;
 	}
 
 	void Start(){
-		if (GM == null) GM = GameManager.GM;
+		GM = GameManager.GM;
+		GM.OnModeChange += UpdateRadius;
 		if (GM.GameState == GameState.InGame) GameOver.enemy.Add(this.gameObject);
+		ScreenLimit = new ScreenLimit(GM.ScreenBorder);
 		Move();
 	}
 
@@ -57,7 +56,6 @@ public class EnemyMovement : MonoBehaviour {
 
 	private void UpdateRadius(){
 		Radius = RectTransform.rect.height/2f;
-		
 	}
 
 
@@ -67,47 +65,28 @@ public class EnemyMovement : MonoBehaviour {
     {
 		void SetInsideLimits(float limit, bool isHorizontal = true){
 
-			if (this.transform.localPosition.x < ScreenLimit.Left + Radius){
-				Rigidbody.velocity = new Vector2(Rigidbody.velocity.x * -1, Rigidbody.velocity.y);
-				this.transform.localPosition = new Vector3(ScreenLimit.Left + Radius, this.transform.localPosition.y,-1);
-				Vector2 dir = -(new Vector2(transform.localPosition.x + (Random.Range(-DirectionRange,DirectionRange)),transform.localPosition.y).normalized);
-			}
+			int signal = limit > 0 ? 1 : -1;
 			
-
-			// Rigidbody.velocity = new Vector2(Rigidbody.velocity.x*-1, Rigidbody.velocity.y);
-			// this.transform.localPosition = new Vector3(ScreenLimit.Right - Radius, this.transform.localPosition.y,-1);
-			// Vector2 dir = -(new Vector2(transform.localPosition.x+(Random.Range(-DirectionRange,DirectionRange)),transform.localPosition.y).normalized);
-			
-			// Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.y*-1);
-			// this.transform.localPosition = new Vector3(this.transform.localPosition.x,ScreenLimit.Bottom + Radius,-1);
+			Rigidbody.velocity = new Vector2(Rigidbody.velocity.x * (isHorizontal ? -1 : 1) , Rigidbody.velocity.y * (isHorizontal ? 1 : -1));
+			this.transform.localPosition = new Vector2(	isHorizontal ? limit - signal * Radius : this.transform.localPosition.x,
+														isHorizontal ? this.transform.localPosition.y : limit - signal * Radius);
 			// Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-DirectionRange,DirectionRange))).normalized);
-			
-			// Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.y*-1);
-			// this.transform.localPosition = new Vector3(this.transform.localPosition.x,ScreenLimit.Top - Radius,-1);
-			// Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-DirectionRange,DirectionRange))).normalized);
-
 		}
 
+		void WarpIt(float limit, bool isHorizontal = true){
+
+			int signal = limit > 0 ? 1 : -1;
 		
+			EnableTrail = false;
+			Particle.enabled = false;
 
+			this.transform.localPosition = new Vector2(	isHorizontal ? -(limit + signal * (Radius - 0.01f)) : this.transform.localPosition.x,
+														isHorizontal ? this.transform.localPosition.y : -(limit + signal * (Radius - 0.01f)));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+			EnableTrail = true;
+			Particle.enabled = true;
+			
+		}
 
 		while (GM.GameState == GameState.MainMenu || (GM.GameState != GameState.GameOver))
 		{
@@ -120,75 +99,54 @@ public class EnemyMovement : MonoBehaviour {
 
 			if (GM.GameMode != GameMode.NoWalls){
 			//prevent the enemy ball to get off screen (left)
-			if (this.transform.localPosition.x< ScreenLimit.Left + Radius){
-				Rigidbody.velocity = new Vector2(Rigidbody.velocity.x*-1, Rigidbody.velocity.y);
-				this.transform.localPosition = new Vector3(ScreenLimit.Left + Radius,this.transform.localPosition.y,-1);
-				Vector2 dir = -(new Vector2(transform.localPosition.x+(Random.Range(-DirectionRange,DirectionRange)),transform.localPosition.y).normalized);
-			}
-			
-			//prevent the enemy ball to get off screen (right)
-			if (this.transform.localPosition.x>ScreenLimit.Right - Radius) {
-				Rigidbody.velocity = new Vector2(Rigidbody.velocity.x*-1, Rigidbody.velocity.y);
-				this.transform.localPosition = new Vector3(ScreenLimit.Right - Radius,this.transform.localPosition.y,-1);
-				Vector2 dir = -(new Vector2(transform.localPosition.x+(Random.Range(-DirectionRange,DirectionRange)),transform.localPosition.y).normalized);
-			}
-			
-			//prevent the enemy ball to get off screen (bottom)
-			if (this.transform.localPosition.y<ScreenLimit.Bottom + Radius) {
-				Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.y*-1);
-				this.transform.localPosition = new Vector3(this.transform.localPosition.x,ScreenLimit.Bottom + Radius,-1);
-				Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-DirectionRange,DirectionRange))).normalized);
-			}
-			
-			//prevent the enemy ball to get off screen (top)
-			if (this.transform.localPosition.y>ScreenLimit.Top - Radius) {
-				Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.y*-1);
-				this.transform.localPosition = new Vector3(this.transform.localPosition.x,ScreenLimit.Top - Radius,-1);
-				Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-DirectionRange,DirectionRange))).normalized);
-			}
-
-			}
-			//WRAPING
-			/* else
-			{
-				if (this.transform.localPosition.x + Radius < leftLimit){
-					EnableTrail = false;
-					ParticleSystem.EmissionModule a = GetComponentInChildren<ParticleSystem>().emission;
-					a.enabled = false;
-					this.transform.localPosition = new Vector3(rightLimit + Radius - 0.01f ,this.transform.localPosition.y,-1);					
+				if (this.transform.localPosition.x < ScreenLimit.Left + Radius){
+					SetInsideLimits(ScreenLimit.Left);
 				}
-			
+				
 				//prevent the enemy ball to get off screen (right)
-				else if (this.transform.localPosition.x - Radius > rightLimit) {
-					EnableTrail = false;
-					ParticleSystem.EmissionModule a = GetComponentInChildren<ParticleSystem>().emission;
-					a.enabled = false;
-					this.transform.localPosition = new Vector3(leftLimit - Radius + 0.01f,this.transform.localPosition.y,-1);
+				if (this.transform.localPosition.x > ScreenLimit.Right - Radius) {
+					SetInsideLimits(ScreenLimit.Right);
 				}
 				
 				//prevent the enemy ball to get off screen (bottom)
-				else if (this.transform.localPosition.y + Radius < bottomLimit) {
-					EnableTrail = false;
-					ParticleSystem.EmissionModule a = GetComponentInChildren<ParticleSystem>().emission;
-					a.enabled = false;
-					this.transform.localPosition = new Vector3(this.transform.localPosition.x,topLimit + Radius - 0.01f ,-1);
+				if (this.transform.localPosition.y < ScreenLimit.Bottom + Radius) {
+					SetInsideLimits(ScreenLimit.Bottom,isHorizontal:false);
 				}
 				
 				//prevent the enemy ball to get off screen (top)
-				else if (this.transform.localPosition.y - Radius > topLimit) {
-					EnableTrail = false;
-					ParticleSystem.EmissionModule a = GetComponentInChildren<ParticleSystem>().emission;
-					a.enabled = false;
-					this.transform.localPosition = new Vector3(this.transform.localPosition.x,bottomLimit - Radius + 0.01f ,-1);
+				if (this.transform.localPosition.y > ScreenLimit.Top - Radius) {
+					SetInsideLimits(ScreenLimit.Top,isHorizontal:false);
 				}
-				else if (this.transform.localPosition.x > leftLimit && this.transform.localPosition.x < rightLimit && this.transform.localPosition.y > bottomLimit && this.transform.localPosition.y < topLimit){
+
+			}
+			
+			else
+			{
+				if (this.transform.localPosition.x + Radius < ScreenLimit.Left){
+					WarpIt(ScreenLimit.Left);					
+				}
+			
+				else if (this.transform.localPosition.x - Radius > ScreenLimit.Right) {
+					WarpIt(ScreenLimit.Right);
+				}
+				
+				else if (this.transform.localPosition.y + Radius < ScreenLimit.Bottom) {
+					WarpIt(ScreenLimit.Bottom, isHorizontal:false);
+				}
+				
+				else if (this.transform.localPosition.y - Radius > ScreenLimit.Top) {
+					WarpIt(ScreenLimit.Top, isHorizontal:false);
+				}
+				
+				else if (!EnableTrail &&
+						this.transform.localPosition.x > ScreenLimit.Left && 
+						this.transform.localPosition.x < ScreenLimit.Right && 
+						this.transform.localPosition.y > ScreenLimit.Bottom && 
+						this.transform.localPosition.y < ScreenLimit.Top){
 					EnableTrail = true;
-					ParticleSystem.EmissionModule a = GetComponentInChildren<ParticleSystem>().emission;
-					a.enabled = true;
-					
+					Particle.enabled = true;
 				}
-			} */
-			//Warp the enemy ball from left to right
+			} 
 			
 			yield return new WaitForFixedUpdate();
 		}
