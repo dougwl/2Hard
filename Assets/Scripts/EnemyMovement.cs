@@ -14,39 +14,45 @@ public class EnemyMovement : MonoBehaviour {
 	public float DirectionRange = 1; //range when enemy hit a wall
 	public float Acceleration = 3f;
 	public bool EnableTrail = true;
-	public bool start = false; 
+	public bool MovementStarted = false; 
 	private float Radius;
     private GameManager GM;
 	private ScreenLimit ScreenLimit;
 	private ParticleSystem.EmissionModule Particle;
 
+
+
     void Awake() {
-		start = false;
+		GM = GameManager.GM;
+		MovementStarted = false;
         Rigidbody = GetComponent<Rigidbody2D>();
 		RectTransform = GetComponent<RectTransform>();
 		Particle = GetComponentInChildren<ParticleSystem>().emission;
 	}
 
 	void Start(){
-		GM = GameManager.GM;
+		if (GM == null) GM = GameManager.GM;
+		UpdateRadius();
 		GM.OnModeChange += UpdateRadius;
 		if (GM.GameState == GameState.InGame) GameOver.enemy.Add(this.gameObject);
 		ScreenLimit = new ScreenLimit(GM.ScreenBorder);
 		Move();
 	}
 
+	// void OnDisable(){
+	// 	GM.ModeInvocation();
+	// 	GM.OnModeChange -= this.UpdateRadius;
+	// 	GM.ModeInvocation();
+	// }
+
 	public void Move(){
-		if (start != true && GM.GameState == GameState.MainMenu)
+		if 	(MovementStarted != true && GM.GameState == GameState.MainMenu ||
+			(GM.GameState == GameState.InGame && GM.Playing) )
         {
 			InitialMove();
-			start = true;
-			StartCoroutine(BallsControl());
+			MovementStarted = true;
 		}
-		else if(GM.GameState == GameState.InGame && GM.Playing){
-			InitialMove();
-			start = true;
-			StartCoroutine(BallsControl());
-		}	
+		
 	}
 
 	void InitialMove(){
@@ -54,42 +60,34 @@ public class EnemyMovement : MonoBehaviour {
 		Rigidbody.AddRelativeForce (new Vector2 (Random.Range(-360,360), Random.Range(-360,360)));
 	}
 
-	private void UpdateRadius(){
+	public void UpdateRadius(){
 		Radius = RectTransform.rect.height/2f;
 	}
+	void SetInsideLimits(float limit, bool isHorizontal = true){
 
-
-
-	
-    private IEnumerator BallsControl()
-    {
-		void SetInsideLimits(float limit, bool isHorizontal = true){
-
-			int signal = limit > 0 ? 1 : -1;
-			
-			Rigidbody.velocity = new Vector2(Rigidbody.velocity.x * (isHorizontal ? -1 : 1) , Rigidbody.velocity.y * (isHorizontal ? 1 : -1));
-			this.transform.localPosition = new Vector2(	isHorizontal ? limit - signal * Radius : this.transform.localPosition.x,
-														isHorizontal ? this.transform.localPosition.y : limit - signal * Radius);
-			// Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-DirectionRange,DirectionRange))).normalized);
-		}
-
-		void WarpIt(float limit, bool isHorizontal = true){
-
-			int signal = limit > 0 ? 1 : -1;
+		int signal = limit > 0 ? 1 : -1;
 		
-			EnableTrail = false;
-			Particle.enabled = false;
+		Rigidbody.velocity = new Vector2(Rigidbody.velocity.x * (isHorizontal ? -1 : 1) , Rigidbody.velocity.y * (isHorizontal ? 1 : -1));
+		this.transform.localPosition = new Vector2(	isHorizontal ? limit - signal * Radius : this.transform.localPosition.x,
+													isHorizontal ? this.transform.localPosition.y : limit - signal * Radius);
+		// Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-DirectionRange,DirectionRange))).normalized);
+	}
 
-			this.transform.localPosition = new Vector2(	isHorizontal ? -(limit + signal * (Radius - 0.01f)) : this.transform.localPosition.x,
-														isHorizontal ? this.transform.localPosition.y : -(limit + signal * (Radius - 0.01f)));
+	void WarpIt(float limit, bool isHorizontal = true){ // Problematic Code
 
-			EnableTrail = true;
-			Particle.enabled = true;
-			
-		}
+		int signal = limit > 0 ? 1 : -1;
+	
+		EnableTrail = false;
+		Particle.enabled = false;
 
-		while (GM.GameState == GameState.MainMenu || (GM.GameState != GameState.GameOver))
-		{
+		this.transform.localPosition = new Vector2(	isHorizontal ? -(limit + signal * (Radius - 0.01f)) : this.transform.localPosition.x,
+													isHorizontal ? this.transform.localPosition.y : -(limit + signal * (Radius - 0.01f)));
+
+	}
+
+	private void FixedUpdate(){
+		
+		if(MovementStarted && (GM.GameState == GameState.MainMenu || (GM.GameState != GameState.GameOver))){
 			//set the ball movement and acceleration
 			Rigidbody.velocity = Rigidbody.velocity.normalized * Speed;
 			
@@ -120,7 +118,7 @@ public class EnemyMovement : MonoBehaviour {
 
 			}
 			
-			else
+			else // Problematic code 
 			{
 				if (this.transform.localPosition.x + Radius < ScreenLimit.Left){
 					WarpIt(ScreenLimit.Left);					
@@ -147,10 +145,8 @@ public class EnemyMovement : MonoBehaviour {
 					Particle.enabled = true;
 				}
 			} 
-			
-			yield return new WaitForFixedUpdate();
-		}
-    }
+		}		
+	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
 
@@ -158,7 +154,7 @@ public class EnemyMovement : MonoBehaviour {
 		if(coll.gameObject.tag == "Enemy"){
 			Vector2 dir = coll.contacts[0].point - (new Vector2(transform.localPosition.x,transform.localPosition.y));
 			dir = -dir.normalized;
-			GetComponent<Rigidbody2D>().AddRelativeForce(dir*CollisionForce);
+			GetComponent<Rigidbody2D>().AddRelativeForce(dir * CollisionForce);
 		}
 
 	}

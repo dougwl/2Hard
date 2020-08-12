@@ -110,7 +110,7 @@ public class EnemyManager : MonoBehaviour {
 		for (int i = 0; i < Enemies.Count; i++)
 		{
 			if(Enemies[i].activeSelf){
-				EnemiesMovement[i].start = false;
+				EnemiesMovement[i].MovementStarted = false;
 			}
 		}
 
@@ -130,15 +130,20 @@ public class EnemyManager : MonoBehaviour {
 
 		for (int i = 0; i < Enemies.Count-1; i++) //WTF IS THIS, search for a new way to reset speed without turning the shit off.
 		{
+			var EM = Enemies[i].GetComponent<EnemyMovement>(); // Make a revision of this code, apply it to survival mode. 
+			GM.OnModeChange -= EM.UpdateRadius;
 			Enemies[i].SetActive(false);
 			Enemies[i].SetActive(true);
 		}
 		
 		Enemies[4].SetActive(false); // Need to be changed, adding the survival script to all enemies.
-
+		
+		var EM4 = Enemies[4].GetComponent<EnemyMovement>(); 
+		GM.OnModeChange -= EM4.UpdateRadius;
+		
 		for (int i = 0; i < Enemies.Count; i++)
 		{
-			EnemiesMovement[i].start = false;
+			EnemiesMovement[i].MovementStarted = false;
 			EnemiesMovement[i].CollisionForce = 25f;
 			RectTransforms[i].sizeDelta = new Vector2 (OriginalSize,OriginalSize);
 			CircleColliders[i].radius = OriginalSize/2;
