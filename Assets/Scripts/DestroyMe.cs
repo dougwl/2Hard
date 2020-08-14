@@ -5,7 +5,7 @@ using UnityEngine;
 public class DestroyMe : MonoBehaviour {
 
 	void Update () {
-		if (GameManager.GM.GameMode != GameMode.Survival) Destroy(this.gameObject);
+		if (GameManager.GM.GameMode != GameMode.Survival) {Destroy(this.gameObject);}
 	}
 
 }

@@ -67,9 +67,7 @@ public class GameOver : MonoBehaviour {
 		clockString.text = "";
 		StartCoroutine(scoreLerp());
 		
-		foreach (GameObject enm in enemy){
-			enm.GetComponent<Rigidbody2D>().Sleep();
-		}
+		Sleep();
 			
 		BestScore();
 

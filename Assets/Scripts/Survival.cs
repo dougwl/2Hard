@@ -4,44 +4,36 @@ using UnityEngine;
 
 public class Survival : MonoBehaviour {
 
-	[SerializeField] private GameObject Enemy;
-	[SerializeField] private Transform Board;
+	private int MaxClones;
+	public List<GameObject> Enemies;
 
-	private int aux = 0;
-	private float clock = 0f;
+	private int ActiveClones = 0;
+	private float Timer = 10f;
 	private GameManager GM;
+
+	private EnemyMovement EnemyMovement;
 
     private void Awake()
     {
 		GM = GameManager.GM;
+		EnemyMovement = GetComponent<EnemyMovement>();
 	}
+
 	private void Start() {
+
 		if (GM.GameMode != GameMode.Survival) {
 			gameObject.SetActive(false);
 		}
-		else {
-			if (GM.GameState == GameState.MainMenu) StartCoroutine(Timer());
-		}
-	}
-	
-	private void Update() {
-		if (GM.GameState == GameState.InGame) clock = Stopwatch.Clock;
-		if (aux < (int)(clock/10) && aux <6){
-			aux++;
-			GameObject temp = Instantiate(Enemy,transform.position,transform.rotation,Board);
-			temp.GetComponent<EnemyMovement>().Speed = gameObject.GetComponent<EnemyMovement>().Speed;
-			temp.GetComponent<EnemyMovement>().Acceleration = gameObject.GetComponent<EnemyMovement>().Acceleration;
-			if (GM.GameState == GameState.InGame) GameOver.enemy.Add(temp);
-		}
+		
+		InvokeRepeating("CreateClone", Timer, MaxClones);
 	}
 
-	public IEnumerator Timer(){
-		while (GM.GameMode == GameMode.Survival) 
-		{
-			clock += Time.deltaTime;
-			yield return null;
-		}
-		clock = 0f;
-		aux = 0;
+	private void CreateClone(){
+		ActiveClones++;
+		GameObject clone = Enemies[ActiveClones];
+		clone.SetActive(true);
+		clone.transform.position = transform.position;
+		clone.GetComponent<EnemyMovement>().Speed = EnemyMovement.Speed;
+		clone.GetComponent<EnemyMovement>().Acceleration = EnemyMovement.Acceleration;
 	}
 }
