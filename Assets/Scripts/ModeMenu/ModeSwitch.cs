@@ -135,7 +135,7 @@ public class ModeSwitch : MonoBehaviour {
     public void Randomize()
     {
         System.Random random = new System.Random();
-        GameMode randomMode = (GameMode) random.Next(Enum.GetNames(typeof(GameMode)).Length); // Random positive int less than the total amount of GameModes;
+        GameMode randomMode = (GameMode) random.Next(1,Enum.GetNames(typeof(GameMode)).Length); // Random positive int less than the total amount of GameModes;
         Modes[randomMode](true);
     }
 }
