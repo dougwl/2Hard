@@ -25,9 +25,15 @@ public class GameOver : MonoBehaviour {
 	[SerializeField] private Text pointsText;
 	[SerializeField] private Text matchpoints;
 	[SerializeField] private Image gift;
+
+	private GameManager GM;
 	
 
 	public BackButton androidBack;
+
+	private void Start(){
+		GM = GameManager.GM;
+	}
 	
 	public void CallGameOver(){
 		
@@ -67,7 +73,7 @@ public class GameOver : MonoBehaviour {
 		clockString.text = "";
 		StartCoroutine(scoreLerp());
 		
-		Sleep();
+		GM.EnemyManager.Sleep();
 			
 		BestScore();
 

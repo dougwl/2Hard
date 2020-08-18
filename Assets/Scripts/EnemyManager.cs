@@ -10,6 +10,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private Transform EnemyBoard;[Tooltip("Canvas child where Enemies are inserted")]
     [SerializeField] private int NumberOfEnemies;
     [SerializeField] private List<GameObject> Enemies;
+    [SerializeField] private List<Vector2> EnemyPositions;
     private float OriginalSize;
     [SerializeField] private Gradient DefaultTrailGradient;
     [SerializeField] private Gradient GhostTrailGradient;
@@ -19,12 +20,13 @@ public class EnemyManager : MonoBehaviour
     private List<List<TrailRenderer>> ChildrenTrailRenderers;
     private List<RectTransform> RectTransforms;
     private GameManager GM;
+    private Survival Survival;
 
     private int NumberOfClones;[Tooltip("Maximum number of enemy clones in Survival Mode.")]
 
     private Survival SurvivalEnemy;
 
-    private void Start()
+    private void Awake()
     {
         Enemies = new List<GameObject>();
         EnemiesMovement = new List<EnemyMovement>();
@@ -32,7 +34,13 @@ public class EnemyManager : MonoBehaviour
         Images = new List<Image>();
         ChildrenTrailRenderers = new List<List<TrailRenderer>>();
         RectTransforms = new List<RectTransform>();
+        NumberOfEnemies = 7;
+        CreatePool();
+        SetDefaultPositions();
+    }
 
+    private void Start()
+    {
         foreach (GameObject enemy in Enemies)
         {
             EnemiesMovement.Add(enemy.GetComponent<EnemyMovement>());
@@ -47,7 +55,7 @@ public class EnemyManager : MonoBehaviour
             RectTransforms.Add(enemy.GetComponent<RectTransform>());
         }
 
-        SurvivalEnemy = Enemies[4].GetComponent<Survival>();
+        SurvivalEnemy = Enemies[0].GetComponent<Survival>();
         OriginalSize = RectTransforms[0].rect.width;
         GM = GameManager.GM;
         GM.EnemyManager = this;
@@ -58,17 +66,23 @@ public class EnemyManager : MonoBehaviour
     {
         for (int i = 0; i < NumberOfEnemies; i++)
         {
-            Enemies.Add(Instantiate(Enemy, EnemyBoard));
+            GameObject newEnemy = Instantiate(Enemy, EnemyBoard);
+            newEnemy.SetActive(false);
+            Enemies.Add(newEnemy);
         }
         Enemies[0].AddComponent(typeof(Survival));
-        Enemies[0].GetComponent<Survival>().Enemies = Enemies;
+        Survival = Enemies[0].GetComponent<Survival>();
+        Survival.Enemies = Enemies;
+        Survival.enabled = false;
     }
 
-	public void Sleep(){
-		foreach (GameObject enemy in Enemies){
-			enemy.GetComponent<Rigidbody2D>().Sleep();
-		}
-	}
+    public void Sleep()
+    {
+        foreach (GameObject enemy in Enemies)
+        {
+            enemy.GetComponent<Rigidbody2D>().Sleep();
+        }
+    }
 
     private void SetupMode()
     {
@@ -83,9 +97,18 @@ public class EnemyManager : MonoBehaviour
 
     public void StartMovement()
     {
+        int count = 0;
         foreach (EnemyMovement enemy in EnemiesMovement)
         {
-            if (enemy.isActiveAndEnabled) enemy.Move();
+            //Debug.Log("Movement: " + EnemiesMovement[count] + " Number: " + count + " is active? :" + EnemiesMovement[count].isActiveAndEnabled);
+            Debug.Log("Enemigo antes do check: " + enemy);
+            if (enemy.isActiveAndEnabled) 
+            {
+                Debug.Log("Enemigo " + enemy + " posição " + count + " está ativo");
+                enemy.Move();
+            }
+            //Debug.Log("Feito " + count );
+            count++;
         }
     }
 
@@ -100,6 +123,14 @@ public class EnemyManager : MonoBehaviour
             {
                 trail.colorGradient = DefaultTrailGradient;
             }
+        }
+    }
+
+    private void SetDefaultPositions()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            Enemies[i].transform.localPosition = EnemyPositions[i];
         }
     }
 
@@ -146,8 +177,8 @@ public class EnemyManager : MonoBehaviour
             }
         }
 
-        Enemies[2].SetActive(false);
         Enemies[3].SetActive(false);
+        Enemies[4].SetActive(false);
 
     }
 
@@ -161,19 +192,21 @@ public class EnemyManager : MonoBehaviour
 
     public void ResetStart()
     {
-
-        for (int i = 0; i < Enemies.Count - 1; i++) //WTF IS THIS, search for a new way to reset speed without turning the shit off.
+        for (int i = 0; i < Enemies.Count; i++) //WTF IS THIS, search for a new way to reset speed without turning the shit off.
         {
             var EM = Enemies[i].GetComponent<EnemyMovement>(); // Make a revision of this code, apply it to survival mode. 
             GM.OnModeChange -= EM.UpdateRadius;
             Enemies[i].SetActive(false);
+        }
+
+        for (int i = 1; i < 5; i++) //WTF IS THIS, search for a new way to reset speed without turning the shit off.
+        {
             Enemies[i].SetActive(true);
         }
 
-        Enemies[4].SetActive(false); // Need to be changed, adding the survival script to all enemies.
-
-        var EM4 = Enemies[4].GetComponent<EnemyMovement>();
-        GM.OnModeChange -= EM4.UpdateRadius;
+        var EM0 = Enemies[0].GetComponent<EnemyMovement>();
+        GM.OnModeChange -= EM0.UpdateRadius;
+        Survival.enabled = false;
 
         for (int i = 0; i < Enemies.Count; i++)
         {
@@ -194,17 +227,20 @@ public class EnemyManager : MonoBehaviour
                 }
             }
         }
+        //SetDefaultPositions();
 
     }
 
     public void SurvivalConfig()
     {
-        for (int i = 0; i < Enemies.Count - 1; i++)
+        for (int i = 0; i < Enemies.Count; i++)
         {
             Enemies[i].SetActive(false);
+            EnemiesMovement[i].MovementStarted = false;
         }
 
-        Enemies[4].SetActive(true);
+        Enemies[0].SetActive(true);
+        Survival.enabled = true;
         SlowSpeedConfig();
     }
 

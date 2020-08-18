@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Survival : MonoBehaviour {
 
-	private int MaxClones;
+	private int MaxClones = 6;
 	public List<GameObject> Enemies;
 
 	private int ActiveClones = 0;
@@ -25,15 +25,16 @@ public class Survival : MonoBehaviour {
 			gameObject.SetActive(false);
 		}
 		
-		InvokeRepeating("CreateClone", Timer, MaxClones);
+		InvokeRepeating("CreateClone", 2f, 3f);
 	}
 
 	private void CreateClone(){
-		ActiveClones++;
 		GameObject clone = Enemies[ActiveClones];
 		clone.SetActive(true);
 		clone.transform.position = transform.position;
 		clone.GetComponent<EnemyMovement>().Speed = EnemyMovement.Speed;
 		clone.GetComponent<EnemyMovement>().Acceleration = EnemyMovement.Acceleration;
+		if(ActiveClones == MaxClones) CancelInvoke("CreateClone");
+		ActiveClones++;
 	}
 }

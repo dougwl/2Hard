@@ -30,6 +30,10 @@ public class EnemyMovement : MonoBehaviour {
 		Particle = GetComponentInChildren<ParticleSystem>().emission;
 	}
 
+	void OnEnable(){
+		if (GM == null) GM = GameManager.GM;
+	}
+
 	void Start(){
 		if (GM == null) GM = GameManager.GM;
 		UpdateRadius();
@@ -46,6 +50,11 @@ public class EnemyMovement : MonoBehaviour {
 	// }
 
 	public void Move(){
+		Debug.Log(GM);
+		Debug.Log(MovementStarted);
+		Debug.Log(GM.GameState);
+		Debug.Log(GM.Playing);
+
 		if 	(MovementStarted != true && GM.GameState == GameState.MainMenu ||
 			(GM.GameState == GameState.InGame && GM.Playing) )
         {
