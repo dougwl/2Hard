@@ -19,12 +19,13 @@ public class Survival : MonoBehaviour {
 		EnemyMovement = GetComponent<EnemyMovement>();
 	}
 
-	private void Start() {
+	private void OnEnable(){
 
 		if (GM.GameMode != GameMode.Survival) {
 			gameObject.SetActive(false);
 		}
-		
+
+		ActiveClones = 0;
 		InvokeRepeating("CreateClone", 2f, 3f);
 	}
 
@@ -38,4 +39,11 @@ public class Survival : MonoBehaviour {
 		if(ActiveClones == MaxClones) CancelInvoke("CreateClone");
 		ActiveClones++;
 	}
+
+	
+	private void OnDisable(){
+		CancelInvoke("CreateClone");
+	}
+
+
 }

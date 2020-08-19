@@ -101,10 +101,8 @@ public class EnemyManager : MonoBehaviour
         foreach (EnemyMovement enemy in EnemiesMovement)
         {
             //Debug.Log("Movement: " + EnemiesMovement[count] + " Number: " + count + " is active? :" + EnemiesMovement[count].isActiveAndEnabled);
-            Debug.Log("Enemigo antes do check: " + enemy);
             if (enemy.isActiveAndEnabled) 
             {
-                Debug.Log("Enemigo " + enemy + " posição " + count + " está ativo");
                 enemy.Move();
             }
             //Debug.Log("Feito " + count );

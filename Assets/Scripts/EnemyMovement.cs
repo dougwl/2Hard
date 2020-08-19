@@ -50,11 +50,6 @@ public class EnemyMovement : MonoBehaviour {
 	// }
 
 	public void Move(){
-		Debug.Log(GM);
-		Debug.Log(MovementStarted);
-		Debug.Log(GM.GameState);
-		Debug.Log(GM.Playing);
-
 		if 	(MovementStarted != true && GM.GameState == GameState.MainMenu ||
 			(GM.GameState == GameState.InGame && GM.Playing) )
         {

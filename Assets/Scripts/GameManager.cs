@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
         else if (GM != this) Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
         SceneManager.activeSceneChanged += OnSceneLoad;
-        GameMode = GameMode.None;
+        ChangeGameMode(GameMode.None);
         ChangeState(GameState.MainMenu);
         screenWidth = Screen.width * screenHeight / Screen.height;
         ScreenBorder = new Vector2(screenWidth,screenHeight);
