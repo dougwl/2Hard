@@ -193,17 +193,16 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < Enemies.Count; i++) //WTF IS THIS, search for a new way to reset speed without turning the shit off.
         {
             var EM = Enemies[i].GetComponent<EnemyMovement>(); // Make a revision of this code, apply it to survival mode. 
-            GM.OnModeChange -= EM.UpdateRadius;
             Enemies[i].SetActive(false);
         }
 
         for (int i = 1; i < 5; i++) //WTF IS THIS, search for a new way to reset speed without turning the shit off.
         {
+            Enemies[i].name = "MainEnemy_" + i;
             Enemies[i].SetActive(true);
         }
 
         var EM0 = Enemies[0].GetComponent<EnemyMovement>();
-        GM.OnModeChange -= EM0.UpdateRadius;
         Survival.enabled = false;
 
         for (int i = 0; i < Enemies.Count; i++)
@@ -212,6 +211,7 @@ public class EnemyManager : MonoBehaviour
             EnemiesMovement[i].CollisionForce = 25f;
             RectTransforms[i].sizeDelta = new Vector2(OriginalSize, OriginalSize);
             CircleColliders[i].radius = OriginalSize / 2;
+            EnemiesMovement[i].UpdateRadius();
             foreach (Transform enemyChild in Enemies[i].transform)
             {
                 if (enemyChild.CompareTag("shadow"))
@@ -238,6 +238,7 @@ public class EnemyManager : MonoBehaviour
         }
 
         Enemies[0].SetActive(true);
+        Enemies[0].name = "MainSurvival";
         Survival.enabled = true;
         SlowSpeedConfig();
     }

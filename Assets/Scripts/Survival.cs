@@ -36,6 +36,7 @@ public class Survival : MonoBehaviour {
 		clone.GetComponent<EnemyMovement>().Speed = EnemyMovement.Speed;
 		clone.GetComponent<EnemyMovement>().Acceleration = EnemyMovement.Acceleration;
 		clone.GetComponent<EnemyMovement>().MovementStarted = true;
+		clone.name = "SurvivalClone_" + ActiveClones;
 		if(ActiveClones == MaxClones) CancelInvoke("CreateClone");
 		ActiveClones++;
 	}

@@ -36,18 +36,10 @@ public class EnemyMovement : MonoBehaviour {
 
 	void Start(){
 		if (GM == null) GM = GameManager.GM;
-		UpdateRadius();
-		GM.OnModeChange += UpdateRadius;
 		if (GM.GameState == GameState.InGame) GameOver.enemy.Add(this.gameObject);
 		ScreenLimit = new ScreenLimit(GM.ScreenBorder);
 		Move();
 	}
-
-	// void OnDisable(){
-	// 	GM.ModeInvocation();
-	// 	GM.OnModeChange -= this.UpdateRadius;
-	// 	GM.ModeInvocation();
-	// }
 
 	public void Move(){
 		if 	(MovementStarted != true && GM.GameState == GameState.MainMenu ||
@@ -68,6 +60,8 @@ public class EnemyMovement : MonoBehaviour {
 		Radius = RectTransform.rect.height/2f;
 	}
 	void SetInsideLimits(float limit, bool isHorizontal = true){
+
+		Debug.Log(gameObject.name + "\nestá na posição " + transform.localPosition + "\no limite é " + limit + "\nradius é " + Radius);
 
 		int signal = limit > 0 ? 1 : -1;
 		

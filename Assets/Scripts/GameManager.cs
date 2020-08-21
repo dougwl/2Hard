@@ -90,7 +90,15 @@ public class GameManager : MonoBehaviour
     public void ChangeGameMode(GameMode mode)
     {
         GameMode = mode;
-        if(OnModeChange != null) OnModeChange();
+        if(OnModeChange != null) {
+            OnModeChange();
+            /* for (int i = 0; i < OnModeChange.GetInvocationList().Length; i++)
+            {
+                Debug.Log(OnModeChange.GetInvocationList()[i]);
+            } */
+            
+        }
+
     }
 
     public void OnSceneLoad(Scene scene, Scene sceneMode)
