@@ -61,14 +61,11 @@ public class EnemyMovement : MonoBehaviour {
 	}
 	void SetInsideLimits(float limit, bool isHorizontal = true){
 
-		Debug.Log(gameObject.name + "\nestá na posição " + transform.localPosition + "\no limite é " + limit + "\nradius é " + Radius);
-
 		int signal = limit > 0 ? 1 : -1;
 		
 		Rigidbody.velocity = new Vector2(Rigidbody.velocity.x * (isHorizontal ? -1 : 1) , Rigidbody.velocity.y * (isHorizontal ? 1 : -1));
 		this.transform.localPosition = new Vector2(	isHorizontal ? limit - signal * Radius : this.transform.localPosition.x,
 													isHorizontal ? this.transform.localPosition.y : limit - signal * Radius);
-		// Vector2 dir = -(new Vector2(transform.localPosition.x,transform.localPosition.y+(Random.Range(-DirectionRange,DirectionRange))).normalized);
 	}
 
 	void WarpIt(float limit, bool isHorizontal = true){ // Problematic Code
