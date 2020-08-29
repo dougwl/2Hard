@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
-using ParticleSystem;
+
 
 public class EnemyMovement : MonoBehaviour {
 
@@ -18,9 +19,8 @@ public class EnemyMovement : MonoBehaviour {
 	private float Radius;
     private GameManager GM;
 	private ScreenLimit ScreenLimit;
-	private EmissionModule Particle;
-
-
+	private ParticleSystem.EmissionModule Particle;
+	public event Action OnDirectionChange; 
 
     void Awake() {
 		GM = GameManager.GM;
@@ -42,18 +42,23 @@ public class EnemyMovement : MonoBehaviour {
 	}
 
 	public void Move(){
-		if 	(MovementStarted != true && GM.GameState == GameState.MainMenu ||
+		if 	(!MovementStarted && GM.GameState == GameState.MainMenu ||
 			(GM.GameState == GameState.InGame && GM.Playing) )
         {
 			InitialMove();
 			MovementStarted = true;
 		}
-		
+		StartCoroutine(waitToChangeDirection());
 	}
 
 	void InitialMove(){
 		//Set a random angle to the ball to start moving
-		Rigidbody.AddRelativeForce (new Vector2 (Random.Range(-360,360), Random.Range(-360,360)));
+		Rigidbody.AddRelativeForce (new Vector2 (UnityEngine.Random.Range(-360,360), UnityEngine.Random.Range(-360,360)));
+	}
+
+	IEnumerator waitToChangeDirection(){
+		yield return new WaitUntil(() => !Rigidbody.velocity.Equals(Vector2.zero));
+		OnDirectionChange();
 	}
 
 	public void UpdateRadius(){
@@ -66,15 +71,17 @@ public class EnemyMovement : MonoBehaviour {
 		Rigidbody.velocity = new Vector2(Rigidbody.velocity.x * (isHorizontal ? -1 : 1) , Rigidbody.velocity.y * (isHorizontal ? 1 : -1));
 		this.transform.localPosition = new Vector2(	isHorizontal ? limit - signal * Radius : this.transform.localPosition.x,
 													isHorizontal ? this.transform.localPosition.y : limit - signal * Radius);
+
+		OnDirectionChange();
 	}
 
 	void WarpIt(float limit, bool isHorizontal = true){ // Problematic Code
 
-		int signal = limit > 0 ? 1 : -1;
-	
 		EnableTrail = false;
 		Particle.enabled = false;
-
+		
+		int signal = limit > 0 ? 1 : -1;
+	
 		this.transform.localPosition = new Vector2(	isHorizontal ? -(limit + signal * (Radius - 0.01f)) : this.transform.localPosition.x,
 													isHorizontal ? this.transform.localPosition.y : -(limit + signal * (Radius - 0.01f)));
 
@@ -82,7 +89,7 @@ public class EnemyMovement : MonoBehaviour {
 
 	private void FixedUpdate(){
 		
-		if(MovementStarted && (GM.GameState == GameState.MainMenu || (GM.GameState != GameState.GameOver))){
+		if(MovementStarted && GM.GameState != GameState.GameOver){
 			//set the ball movement and acceleration
 			Rigidbody.velocity = Rigidbody.velocity.normalized * Speed;
 			
@@ -113,7 +120,7 @@ public class EnemyMovement : MonoBehaviour {
 
 			}
 			
-			else // Problematic code 
+			else 
 			{
 				if (this.transform.localPosition.x + Radius < ScreenLimit.Left){
 					WarpIt(ScreenLimit.Left);					
@@ -137,6 +144,7 @@ public class EnemyMovement : MonoBehaviour {
 						this.transform.localPosition.y > ScreenLimit.Bottom && 
 						this.transform.localPosition.y < ScreenLimit.Top){
 					EnableTrail = true;
+					OnDirectionChange();
 					Particle.enabled = true;
 				}
 			} 
@@ -149,7 +157,8 @@ public class EnemyMovement : MonoBehaviour {
 		if(coll.gameObject.tag == "Enemy"){
 			Vector2 dir = coll.contacts[0].point - (new Vector2(transform.localPosition.x,transform.localPosition.y));
 			dir = -dir.normalized;
-			GetComponent<Rigidbody2D>().AddRelativeForce(dir * CollisionForce);
+			Rigidbody.AddRelativeForce(dir * CollisionForce);
+			OnDirectionChange();
 		}
 
 	}
