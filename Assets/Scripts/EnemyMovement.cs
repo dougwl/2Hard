@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
+using ParticleSystem;
 
 public class EnemyMovement : MonoBehaviour {
 
 	private Rigidbody2D Rigidbody;
 	private RectTransform RectTransform;
-
 	public float Speed = 2.5f;
 	[SerializeField] private static float MaxSpeed = 10f;
 	public float CollisionForce = 25;
@@ -18,7 +18,7 @@ public class EnemyMovement : MonoBehaviour {
 	private float Radius;
     private GameManager GM;
 	private ScreenLimit ScreenLimit;
-	private ParticleSystem.EmissionModule Particle;
+	private EmissionModule Particle;
 
 
 

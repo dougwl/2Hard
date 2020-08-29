@@ -22,10 +22,6 @@ public class EnemyManager : MonoBehaviour
     private GameManager GM;
     private Survival Survival;
 
-    private int NumberOfClones;[Tooltip("Maximum number of enemy clones in Survival Mode.")]
-
-    private Survival SurvivalEnemy;
-
     private void Awake()
     {
         Enemies = new List<GameObject>();
@@ -55,7 +51,6 @@ public class EnemyManager : MonoBehaviour
             RectTransforms.Add(enemy.GetComponent<RectTransform>());
         }
 
-        SurvivalEnemy = Enemies[0].GetComponent<Survival>();
         OriginalSize = RectTransforms[0].rect.width;
         GM = GameManager.GM;
         GM.EnemyManager = this;
@@ -97,16 +92,20 @@ public class EnemyManager : MonoBehaviour
 
     public void StartMovement()
     {
-        int count = 0;
         foreach (EnemyMovement enemy in EnemiesMovement)
         {
-            //Debug.Log("Movement: " + EnemiesMovement[count] + " Number: " + count + " is active? :" + EnemiesMovement[count].isActiveAndEnabled);
             if (enemy.isActiveAndEnabled) 
             {
                 enemy.Move();
             }
-            //Debug.Log("Feito " + count );
-            count++;
+        }
+    }
+
+    private void SetDefaultPositions()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            Enemies[i].transform.localPosition = EnemyPositions[i];
         }
     }
 
@@ -121,14 +120,6 @@ public class EnemyManager : MonoBehaviour
             {
                 trail.colorGradient = DefaultTrailGradient;
             }
-        }
-    }
-
-    private void SetDefaultPositions()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            Enemies[i].transform.localPosition = EnemyPositions[i];
         }
     }
 
@@ -251,6 +242,8 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+
+    // Maybe remove from here? 
     private IEnumerator Pulsing(GameObject enemy, RectTransform enemyRect, CircleCollider2D enemyCollider)
     {
 
